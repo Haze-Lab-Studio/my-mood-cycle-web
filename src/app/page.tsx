@@ -1,0 +1,277 @@
+import type { Metadata } from "next";
+
+import { DownloadButtons } from "@/components/DownloadButtons";
+import { FeatureBlock } from "@/components/FeatureBlock";
+import { Footer } from "@/components/Footer";
+import { Nav } from "@/components/Nav";
+import { PhaseCard } from "@/components/PhaseCard";
+
+export const metadata: Metadata = {
+  title: "MoodCycle — Track Your Cycle, Understand Your Mood",
+  description:
+    "MoodCycle helps you connect your menstrual cycle phases to your emotional patterns. Know why you feel the way you feel.",
+  openGraph: {
+    title: "MoodCycle — Track Your Cycle, Understand Your Mood",
+    description:
+      "Connect your cycle phases to your emotional patterns. Never be caught off guard by your own feelings again.",
+    type: "website",
+    url: "/",
+    images: ["/background-icon.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
+
+const phases = [
+  {
+    phase: "Menstrual",
+    emoji: "🌑",
+    tagline: "Rest without guilt",
+    description:
+      "Energy is low and inward. Permission to slow down — your body is doing real work.",
+    color: "#9E8EA0",
+  },
+  {
+    phase: "Follicular",
+    emoji: "🌱",
+    tagline: "Your ideas are gold right now",
+    description: "Curiosity returns. A great window for starting things and thinking clearly.",
+    color: "#A8C5A0",
+  },
+  {
+    phase: "Ovulatory",
+    emoji: "☀️",
+    tagline: "You're magnetic",
+    description:
+      "Confidence and connection peak. Conversations feel easier, social energy expands.",
+    color: "#E8B86D",
+  },
+  {
+    phase: "Luteal",
+    emoji: "🍂",
+    tagline: "Your feelings are valid — all of them",
+    description:
+      "Sensitivity sharpens. Be gentle with yourself; this is when your honesty deepens.",
+    color: "#C4956A",
+  },
+];
+
+function WaveIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 24" className={className} aria-hidden>
+      <path
+        d="M3 14 Q10 2 17 14 T31 14"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <circle cx="38" cy="14" r="3" fill="currentColor" />
+    </svg>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-cream">
+      <Nav />
+
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 right-0 h-[600px] w-[600px] rounded-full opacity-60 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-3xl px-6 py-20 text-center md:px-10 md:py-28">
+          <div className="animate-fade-up">
+            <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
+              <WaveIcon className="h-3.5 w-7" />
+              For every phase
+            </p>
+            <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
+              Finally understand why you feel the way you feel.
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-brand-purple-light">
+              MoodCycle maps your cycle phases to your emotional patterns — so you&apos;re never
+              caught off guard by your own feelings.
+            </p>
+            <div className="mt-9">
+              <DownloadButtons centered />
+            </div>
+            <svg
+              viewBox="0 0 384 218"
+              role="img"
+              aria-label="MoodCycle app icon"
+              className="mx-auto mt-14 w-full max-w-[420px] animate-float-slow"
+            >
+              <path
+                className="app-icon-wave"
+                d="M3.001 108.78C60.525 -32.26 118.049 -32.26 175.573 108.78C233.097 249.82 290.621 249.82 348.146 108.78"
+                stroke="#DB7094"
+                strokeWidth="6"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <circle className="app-icon-dot" cx="348.146" cy="108.78" r="35.26" fill="#DB7094" />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[680px] text-center">
+          <h2 className="text-3xl leading-tight text-brand-purple md:text-5xl">
+            Most cycle apps track your body.{" "}
+            <span className="italic text-brand-rose">MoodCycle tracks how you feel.</span>
+          </h2>
+          <p className="mt-6 text-lg leading-relaxed text-brand-purple-light">
+            Existing apps focus on fertility windows and physical symptoms. But your cycle affects
+            your energy, your patience, your confidence, your creativity — and nobody talks about
+            that. MoodCycle changes that.
+          </p>
+        </div>
+      </section>
+
+      <section className="px-6 pb-24 md:px-10 md:pb-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 max-w-2xl">
+            <h2 className="text-3xl text-brand-purple md:text-5xl">
+              Know your phase. Understand your mood.
+            </h2>
+            <p className="mt-4 text-lg text-brand-purple-light">
+              A simple framework for the four phases — and what they mean for how you feel.
+            </p>
+          </div>
+          <div className="-mx-6 flex gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
+            {phases.map((p) => (
+              <PhaseCard key={p.phase} {...p} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20 md:px-10 md:py-28">
+        <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-3 md:gap-10">
+          <FeatureBlock
+            icon={<WaveIcon className="h-7 w-12" />}
+            title="Phase-aware mood context"
+            description="See exactly which phase you're in and what it means emotionally, the moment you open the app."
+          />
+          <FeatureBlock
+            icon={
+              <svg
+                viewBox="0 0 24 24"
+                className="h-7 w-7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M6 12 Q12 5 18 12" />
+              </svg>
+            }
+            title="No fertility focus"
+            description="MoodCycle isn't about when to conceive. It's about understanding yourself."
+          />
+          <FeatureBlock
+            icon={
+              <svg
+                viewBox="0 0 24 24"
+                className="h-7 w-7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M12 3 L20 6 V12 C20 16.5 16.5 20 12 21 C7.5 20 4 16.5 4 12 V6 Z" />
+              </svg>
+            }
+            title="Private by design"
+            description="Your data stays on your device. No accounts required to get started."
+          />
+        </div>
+      </section>
+
+      <section className="bg-[#F7EEF2] px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
+          <h2 className="max-w-2xl text-3xl text-brand-purple md:text-5xl">
+            A daily check-in that actually means something.
+          </h2>
+          <p className="mt-4 max-w-xl text-lg text-brand-purple-light">
+            Open the app. See your phase. Get the emotional context — in one calm screen.
+          </p>
+
+          <div className="mt-14 relative">
+            <div className="relative h-[560px] w-[280px] rounded-[44px] border-[10px] border-brand-purple bg-cream shadow-[0_40px_80px_-30px_rgba(98,62,116,0.45)]">
+              <div className="absolute left-1/2 top-2 h-1.5 w-20 -translate-x-1/2 rounded-full bg-brand-purple/40" />
+              <div className="flex h-full flex-col px-6 pt-12 pb-8">
+                <p className="text-xs uppercase tracking-[0.18em] text-brand-purple-light">
+                  Today · Day 14
+                </p>
+                <h3 className="mt-2 font-display text-3xl text-brand-purple">Ovulatory</h3>
+
+                <div className="mt-7 rounded-3xl bg-[#FFF4E1] p-6 text-left">
+                  <span className="text-2xl" aria-hidden>
+                    ☀️
+                  </span>
+                  <p className="mt-3 font-display text-2xl italic text-[#B6802F]">
+                    You&apos;re magnetic
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-brand-purple-light">
+                    Confidence and connection peak today. Lean into conversations — your warmth
+                    carries.
+                  </p>
+                </div>
+
+                <div className="mt-5 flex items-center justify-between rounded-2xl bg-cream ring-1 ring-border px-4 py-3">
+                  <span className="text-sm text-brand-purple">How do you feel?</span>
+                  <span className="text-lg" aria-hidden>
+                    ✦
+                  </span>
+                </div>
+
+                <div className="mt-auto flex justify-center gap-1.5 pt-6">
+                  {phases.map((p) => (
+                    <span
+                      key={p.phase}
+                      className="h-1.5 w-8 rounded-full"
+                      style={{
+                        backgroundColor: p.phase === "Ovulatory" ? p.color : "#EADFE4",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="download" className="px-6 py-24 text-center md:px-10 md:py-32">
+        <div className="mx-auto max-w-2xl">
+          <h2 className="text-3xl text-brand-purple md:text-5xl">
+            Start understanding your cycle today.
+          </h2>
+          <div className="mt-10">
+            <DownloadButtons centered />
+          </div>
+          <p className="mt-6 text-sm text-brand-purple-light">
+            Free to download. Your data stays on your device.
+          </p>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
