@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 
+import { BrandName } from "@/components/BrandName";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "MoodCycle does not collect, store, or transmit your personal data. Everything stays on your device.",
+    "My Mood Cycle does not collect, store, or transmit your personal data. Everything stays on your device.",
   openGraph: {
-    title: "Privacy Policy — MoodCycle",
+    title: "Privacy Policy — My Mood Cycle",
     description:
-      "MoodCycle does not collect, store, or transmit your personal data. Everything stays on your device.",
+      "My Mood Cycle does not collect, store, or transmit your personal data. Everything stays on your device.",
     url: "/privacy",
     type: "article",
   },
@@ -44,13 +45,15 @@ export default function PrivacyPage() {
           <div className="mt-10 space-y-5 text-[17px] leading-[1.75] text-brand-purple-light">
             <H2>The short version</H2>
             <p>
-              MoodCycle does not collect, store, or transmit your personal data anywhere.
+              <BrandName /> does not collect, store, or transmit your personal data anywhere.
               Everything stays on your device. There is no account, no server, no cloud sync — just
               you and your phone.
             </p>
 
             <H2>What data the app stores</H2>
-            <p>When you use MoodCycle, the following information is saved locally on your device:</p>
+            <p>
+              When you use <BrandName />, the following information is saved locally on your device:
+            </p>
             <ul className="list-disc space-y-2 pl-6">
               <li>Cycle dates you log (start and end dates)</li>
               <li>Daily mood and symptom entries</li>
@@ -106,8 +109,8 @@ export default function PrivacyPage() {
 
             <H2>Third-party services</H2>
             <p>
-              MoodCycle does not integrate with any third-party analytics, advertising, or tracking
-              services. There are no SDKs in the app that send data to external parties.
+              <BrandName /> does not integrate with any third-party analytics, advertising, or
+              tracking services. There are no SDKs in the app that send data to external parties.
             </p>
 
             <H2>Children</H2>
@@ -118,9 +121,10 @@ export default function PrivacyPage() {
 
             <H2>Changes to this policy</H2>
             <p>
-              If MoodCycle&apos;s data practices change in a meaningful way — for example, if a sync
-              or account feature is added in the future — this policy will be updated and you will
-              be notified within the app before any such change takes effect.
+              If <BrandName />
+              &apos;s data practices change in a meaningful way — for example, if a sync or account
+              feature is added in the future — this policy will be updated and you will be notified
+              within the app before any such change takes effect.
             </p>
 
             <H2>Contact</H2>

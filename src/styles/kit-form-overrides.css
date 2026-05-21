@@ -1,0 +1,75 @@
+@import "./kit-form.css";
+
+.formkit-form[data-uid="12d974956c"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-powered-by-convertkit-container {
+  display: none;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-fields[data-stacked="false"] {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.75rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-fields[data-stacked="false"] .formkit-field,
+.formkit-form[data-uid="12d974956c"][min-width~="700"]
+  .formkit-fields[data-stacked="false"]
+  .formkit-field,
+.formkit-form[data-uid="12d974956c"][min-width~="800"]
+  .formkit-fields[data-stacked="false"]
+  .formkit-field {
+  flex: 0 0 300px;
+  width: 300px;
+  max-width: 300px;
+  margin: 0;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-fields[data-stacked="false"] .formkit-submit,
+.formkit-form[data-uid="12d974956c"][min-width~="700"]
+  .formkit-fields[data-stacked="false"]
+  .formkit-submit,
+.formkit-form[data-uid="12d974956c"][min-width~="800"]
+  .formkit-fields[data-stacked="false"]
+  .formkit-submit {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-input,
+.formkit-form[data-uid="12d974956c"] .formkit-submit {
+  border-radius: 9999px;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-input {
+  color: var(--color-foreground);
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-input:focus-visible {
+  outline: 3px solid rgba(224, 122, 163, 0.4);
+  outline-offset: 3px;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-input::placeholder {
+  color: rgba(106, 64, 137, 0.6);
+  opacity: 1;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-input::-webkit-input-placeholder {
+  color: rgba(106, 64, 137, 0.6);
+  opacity: 1;
+}
+
+.formkit-form[data-uid="12d974956c"] .formkit-input::-moz-placeholder {
+  color: rgba(106, 64, 137, 0.6);
+  opacity: 1;
+}

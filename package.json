@@ -4,6 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:clean": "npm run clean && next dev",
+    "clean": "rm -rf .next node_modules/.cache",
+    "sync:kit-css": "node --input-type=module -e \"import fs from 'fs'; const base=fs.readFileSync('src/styles/kit-form.css','utf8'); const overrides=fs.readFileSync('src/styles/kit-form-overrides.css','utf8').replace(/^@import[^;]+;\\s*/,''); fs.writeFileSync('public/kit-form.css', base+'\\n'+overrides);\"",
+    "prebuild": "npm run sync:kit-css",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import Script from "next/script";
+
+import { KIT_CKJS_SRC } from "@/lib/kit-form";
 
 import "./globals.css";
 
@@ -7,8 +10,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://moodcycle.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    template: "%s — MoodCycle",
-    default: "MoodCycle",
+    template: "%s — My Mood Cycle",
+    default: "My Mood Cycle",
   },
   icons: {
     icon: [
@@ -20,7 +23,7 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "MoodCycle",
+    title: "My Mood Cycle",
     statusBarStyle: "default",
   },
 };
@@ -39,8 +42,12 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&display=swap"
           rel="stylesheet"
         />
+        <link rel="stylesheet" href="/kit-form.css" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Script src={KIT_CKJS_SRC} strategy="afterInteractive" />
+        {children}
+      </body>
     </html>
   );
 }
