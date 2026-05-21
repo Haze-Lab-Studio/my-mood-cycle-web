@@ -29,11 +29,7 @@ export function DownloadButtons({
         emailPlaceholder={emailPlaceholder}
         submitLabel={submitLabel}
       />
-      {helperText ? (
-        <p className={helperTextClassName}>
-          {helperText}
-        </p>
-      ) : null}
+      {helperText ? <p className={helperTextClassName}>{helperText}</p> : null}
     </div>
   );
 }
