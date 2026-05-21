@@ -1,18 +1,39 @@
-export function DownloadButtons({ centered = false }: { centered?: boolean }) {
+import type { ReactNode } from "react";
+
+import { KitSubscribeForm } from "@/components/KitSubscribeForm";
+
+type Props = {
+  centered?: boolean;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  submitLabel?: string;
+  helperText?: ReactNode;
+  helperTextClassName?: string;
+};
+
+const defaultHelperTextClassName =
+  "mx-auto mt-4 max-w-xl text-lg leading-relaxed text-brand-purple-light";
+
+export function DownloadButtons({
+  centered = false,
+  emailLabel,
+  emailPlaceholder,
+  submitLabel,
+  helperText,
+  helperTextClassName = defaultHelperTextClassName,
+}: Props) {
   return (
-    <div className={`flex flex-col gap-3 sm:flex-row ${centered ? "sm:justify-center" : ""}`}>
-      <a
-        href="#"
-        className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-rose px-6 py-3.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
-      >
-        Download on iOS
-      </a>
-      <a
-        href="#"
-        className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-purple/30 bg-transparent px-6 py-3.5 text-sm font-medium text-brand-purple transition hover:bg-brand-purple/5"
-      >
-        Download on Android
-      </a>
+    <div className={`w-full ${centered ? "mx-auto flex flex-col items-center" : ""}`}>
+      <KitSubscribeForm
+        emailLabel={emailLabel}
+        emailPlaceholder={emailPlaceholder}
+        submitLabel={submitLabel}
+      />
+      {helperText ? (
+        <p className={helperTextClassName}>
+          {helperText}
+        </p>
+      ) : null}
     </div>
   );
 }

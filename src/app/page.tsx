@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { BrandName } from "@/components/BrandName";
 import { DownloadButtons } from "@/components/DownloadButtons";
 import { FeatureBlock } from "@/components/FeatureBlock";
 import { Footer } from "@/components/Footer";
@@ -7,11 +8,11 @@ import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
 
 export const metadata: Metadata = {
-  title: "MoodCycle — Track Your Cycle, Understand Your Mood",
+  title: "My Mood Cycle — Track Your Cycle, Understand Your Mood",
   description:
-    "MoodCycle helps you connect your menstrual cycle phases to your emotional patterns. Know why you feel the way you feel.",
+    "My Mood Cycle helps you connect your menstrual cycle phases to your emotional patterns. Know why you feel the way you feel.",
   openGraph: {
-    title: "MoodCycle — Track Your Cycle, Understand Your Mood",
+    title: "My Mood Cycle — Track Your Cycle, Understand Your Mood",
     description:
       "Connect your cycle phases to your emotional patterns. Never be caught off guard by your own feelings again.",
     type: "website",
@@ -88,7 +89,7 @@ export default function HomePage() {
             background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
           }}
         />
-        <div className="relative mx-auto max-w-3xl px-6 py-20 text-center md:px-10 md:py-28">
+        <div className="relative mx-auto max-w-3xl px-6 pt-14 pb-10 text-center md:px-10 md:pt-[4.9rem] md:pb-14">
           <div className="animate-fade-up">
             <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
               <WaveIcon className="h-3.5 w-7" />
@@ -97,17 +98,25 @@ export default function HomePage() {
             <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
               Finally understand why you feel the way you feel.
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-brand-purple-light">
-              MoodCycle maps your cycle phases to your emotional patterns — so you&apos;re never
-              caught off guard by your own feelings.
+            <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light">
+              Get <strong className="text-brand-rose">The Emotional Cycle Guide</strong> instantly
+              and join the <BrandName /> waitlist — understand how your cycle influences mood,
+              energy, and emotions.
             </p>
             <div className="mt-9">
-              <DownloadButtons centered />
+              <DownloadButtons
+                centered
+                emailLabel="Enter your email"
+                emailPlaceholder="Enter your email"
+                submitLabel="Get the free guide"
+                helperText="Instant guide access • Early access to MoodCycle • No spam"
+                helperTextClassName="mx-auto mt-6 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
+              />
             </div>
             <svg
               viewBox="0 0 384 218"
               role="img"
-              aria-label="MoodCycle app icon"
+              aria-label="My Mood Cycle app icon"
               className="mx-auto mt-14 w-full max-w-[420px] animate-float-slow"
             >
               <path
@@ -124,40 +133,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-6 py-24 md:px-10 md:py-32">
-        <div className="mx-auto max-w-[680px] text-center">
+      <section className="bg-[#FFF7FA] px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-[715px] text-center">
           <h2 className="text-3xl leading-tight text-brand-purple md:text-5xl">
             Most cycle apps track your body.{" "}
-            <span className="italic text-brand-rose">MoodCycle tracks how you feel.</span>
+            <span className="italic text-brand-rose">My Mood Cycle tracks how you feel.</span>
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-brand-purple-light">
             Existing apps focus on fertility windows and physical symptoms. But your cycle affects
             your energy, your patience, your confidence, your creativity — and nobody talks about
-            that. MoodCycle changes that.
+            that. <BrandName /> changes that.
           </p>
         </div>
-      </section>
-
-      <section className="px-6 pb-24 md:px-10 md:pb-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-12 max-w-2xl">
-            <h2 className="text-3xl text-brand-purple md:text-5xl">
-              Know your phase. Understand your mood.
-            </h2>
-            <p className="mt-4 text-lg text-brand-purple-light">
-              A simple framework for the four phases — and what they mean for how you feel.
-            </p>
-          </div>
-          <div className="-mx-6 flex gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
-            {phases.map((p) => (
-              <PhaseCard key={p.phase} {...p} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 py-20 md:px-10 md:py-28">
-        <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-3 md:gap-10">
+        <div className="mx-auto mt-16 grid max-w-6xl gap-12 md:mt-20 md:grid-cols-3 md:gap-10">
           <FeatureBlock
             icon={<WaveIcon className="h-7 w-12" />}
             title="Phase-aware mood context"
@@ -179,7 +167,12 @@ export default function HomePage() {
               </svg>
             }
             title="No fertility focus"
-            description="MoodCycle isn't about when to conceive. It's about understanding yourself."
+            description={
+              <>
+                <BrandName /> isn&apos;t about when to conceive. It&apos;s about understanding
+                yourself.
+              </>
+            }
           />
           <FeatureBlock
             icon={
@@ -202,7 +195,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#F7EEF2] px-6 py-24 md:px-10 md:py-32">
+      <section className="px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 max-w-2xl">
+            <h2 className="text-3xl text-brand-purple md:text-5xl">
+              Know your phase. Understand your mood.
+            </h2>
+            <p className="mt-4 text-lg text-brand-purple-light">
+              A simple framework for the four phases — and what they mean for how you feel.
+            </p>
+          </div>
+          <div className="-mx-6 flex gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
+            {phases.map((p) => (
+              <PhaseCard key={p.phase} {...p} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#F7EEF2] px-6 pt-24 pb-[72px] md:px-10 md:pt-32 md:pb-[72px]">
         <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
           <h2 className="max-w-2xl text-3xl text-brand-purple md:text-5xl">
             A daily check-in that actually means something.
@@ -258,16 +269,21 @@ export default function HomePage() {
       </section>
 
       <section id="download" className="px-6 py-24 text-center md:px-10 md:py-32">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-none">
           <h2 className="text-3xl text-brand-purple md:text-5xl">
-            Start understanding your cycle today.
+            Get your free <span className="text-brand-rose">Emotional Cycle Guide</span>
           </h2>
-          <div className="mt-10">
-            <DownloadButtons centered />
-          </div>
-          <p className="mt-6 text-sm text-brand-purple-light">
-            Free to download. Your data stays on your device.
+          <p className="mt-4 text-lg leading-relaxed text-brand-purple-light">
+            Get the guide instantly and be first to try <BrandName />.
           </p>
+          <div className="mt-10">
+            <DownloadButtons
+              centered
+              submitLabel="Get the free guide"
+              helperText="Free guide now. Early access later."
+              helperTextClassName="mx-auto mt-4 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
+            />
+          </div>
         </div>
       </section>
 

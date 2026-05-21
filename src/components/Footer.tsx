@@ -1,13 +1,16 @@
 import Link from "next/link";
 
+import { BrandName } from "@/components/BrandName";
+import { FooterLogo } from "@/components/FooterLogo";
+
 export function Footer() {
   return (
     <footer className="bg-brand-purple text-cream">
-      <div className="mx-auto max-w-6xl px-6 py-14 md:px-10 md:py-16">
+      <div className="mx-auto max-w-6xl px-6 pt-14 pb-14 md:px-10">
         <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
-          <img src="/logo-horizontal-white.svg" alt="MoodCycle" className="h-10 w-auto md:h-11" />
+          <FooterLogo />
           <p className="font-display text-lg italic text-cream/85">
-            Made with care for every phase.
+            Understanding your cycle, one day at a time.
           </p>
           <nav className="flex items-center gap-6 text-sm">
             <Link href="/privacy" className="transition hover:text-brand-rose-light">
@@ -19,7 +22,7 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-10 border-t border-white/10 pt-6 text-xs text-cream/60">
-          © 2025 MoodCycle
+          © 2026 <BrandName />
         </div>
       </div>
     </footer>

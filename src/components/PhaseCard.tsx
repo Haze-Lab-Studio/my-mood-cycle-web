@@ -8,7 +8,7 @@ type Props = {
 
 export function PhaseCard({ phase, emoji, tagline, description, color }: Props) {
   return (
-    <article className="group flex h-full min-w-[260px] flex-col rounded-3xl bg-cream p-7 shadow-[0_1px_0_rgba(98,62,116,0.06),0_20px_40px_-30px_rgba(98,62,116,0.25)] ring-1 ring-border/60 transition hover:-translate-y-1 hover:shadow-[0_1px_0_rgba(98,62,116,0.06),0_30px_50px_-30px_rgba(98,62,116,0.35)]">
+    <article className="group flex h-full min-w-[260px] flex-col rounded-3xl border border-[rgba(111,70,140,0.08)] bg-cream p-7 shadow-[0_1px_0_rgba(98,62,116,0.06),0_20px_40px_-30px_rgba(98,62,116,0.25)] transition-all duration-[250ms] ease hover:-translate-y-1 hover:border-[rgba(111,70,140,0.12)] hover:shadow-[0_12px_30px_rgba(111,70,140,0.08)]">
       <div className="flex items-center gap-3">
         <span
           aria-hidden
