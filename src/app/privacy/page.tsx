@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 
+import { BrandName } from "@/components/BrandName";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "MoodCycle's privacy policy. Your health data is yours.",
+  description: "My Mood Cycle's privacy policy. Your health data is yours.",
   openGraph: {
-    title: "Privacy Policy — MoodCycle",
-    description: "MoodCycle's privacy policy. Your health data is yours.",
+    title: "Privacy Policy — My Mood Cycle",
+    description: "My Mood Cycle's privacy policy. Your health data is yours.",
     url: "/privacy",
     type: "article",
   },
@@ -37,16 +38,16 @@ export default function PrivacyPage() {
           <div className="mt-10 space-y-5 text-[17px] leading-[1.75] text-brand-purple-light">
             <H2>Introduction</H2>
             <p>
-              MoodCycle is an app that helps you understand how your menstrual cycle affects your
-              emotions and mood. We built it with the belief that your health data is yours — and
-              that a cycle app should prove it. This policy explains, in plain language, what we do
-              (and don&apos;t) collect.
+              <BrandName /> is an app that helps you understand how your menstrual cycle affects
+              your emotions and mood. We built it with the belief that your health data is yours —
+              and that a cycle app should prove it. This policy explains, in plain language, what we
+              do (and don&apos;t) collect.
             </p>
 
             <H2>What data we collect</H2>
             <p>
-              You can use MoodCycle without an account, an email, or a name. Inside the app, you may
-              choose to log:
+              You can use <BrandName /> without an account, an email, or a name. Inside the app, you
+              may choose to log:
             </p>
             <ul className="list-disc space-y-2 pl-6">
               <li>Cycle start and end dates</li>
@@ -75,7 +76,7 @@ export default function PrivacyPage() {
 
             <H2>Third-party services</H2>
             <p>
-              We use Expo to build and deliver MoodCycle, which may collect anonymous crash and
+              We use Expo to build and deliver <BrandName />, which may collect anonymous crash and
               performance telemetry. You can read Expo&apos;s privacy policy at{" "}
               <a
                 href="https://expo.dev/privacy"
@@ -88,7 +89,7 @@ export default function PrivacyPage() {
 
             <H2>Children&apos;s privacy</H2>
             <p>
-              MoodCycle is intended for users 13 and older. We do not knowingly collect any data
+              <BrandName /> is intended for users 13 and older. We do not knowingly collect any data
               from anyone under 13. If you believe a child has used the app, contact us and we will
               help.
             </p>
@@ -102,8 +103,8 @@ export default function PrivacyPage() {
 
             <H2>Changes to this policy</H2>
             <p>
-              If we change how MoodCycle handles data, we&apos;ll update this page and note the new
-              effective date. Material changes will also be surfaced in the app.
+              If we change how <BrandName /> handles data, we&apos;ll update this page and note the
+              new effective date. Material changes will also be surfaced in the app.
             </p>
 
             <H2>Contact</H2>
