@@ -222,48 +222,17 @@ export default function HomePage() {
             Open the app. See your phase. Get the emotional context — in one calm screen.
           </p>
 
-          <div className="mt-14 relative">
-            <div className="relative h-[560px] w-[280px] rounded-[44px] border-[10px] border-brand-purple bg-cream shadow-[0_40px_80px_-30px_rgba(98,62,116,0.45)]">
-              <div className="absolute left-1/2 top-2 h-1.5 w-20 -translate-x-1/2 rounded-full bg-brand-purple/40" />
-              <div className="flex h-full flex-col px-6 pt-12 pb-8">
-                <p className="text-xs uppercase tracking-[0.18em] text-brand-purple-light">
-                  Today · Day 14
-                </p>
-                <h3 className="mt-2 font-display text-3xl text-brand-purple">Ovulatory</h3>
-
-                <div className="mt-7 rounded-3xl bg-[#FFF4E1] p-6 text-left">
-                  <span className="text-2xl" aria-hidden>
-                    ☀️
-                  </span>
-                  <p className="mt-3 font-display text-2xl italic text-[#B6802F]">
-                    You&apos;re magnetic
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-brand-purple-light">
-                    Confidence and connection peak today. Lean into conversations — your warmth
-                    carries.
-                  </p>
-                </div>
-
-                <div className="mt-5 flex items-center justify-between rounded-2xl bg-cream ring-1 ring-border px-4 py-3">
-                  <span className="text-sm text-brand-purple">How do you feel?</span>
-                  <span className="text-lg" aria-hidden>
-                    ✦
-                  </span>
-                </div>
-
-                <div className="mt-auto flex justify-center gap-1.5 pt-6">
-                  {phases.map((p) => (
-                    <span
-                      key={p.phase}
-                      className="h-1.5 w-8 rounded-full"
-                      style={{
-                        backgroundColor: p.phase === "Ovulatory" ? p.color : "#EADFE4",
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="relative mt-14">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="mx-auto block aspect-[9/16] h-auto w-full max-w-[280px] rounded-[44px] object-cover opacity-100"
+            >
+              <source src="/my-mood-cycle-video-demo.webm" type="video/webm" />
+              <source src="/my-mood-cycle-video-demo.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
       </section>
