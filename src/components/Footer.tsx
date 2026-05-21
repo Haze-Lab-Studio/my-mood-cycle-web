@@ -13,7 +13,10 @@ export function Footer() {
             <Link href="/privacy" className="transition hover:text-brand-rose-light">
               Privacy Policy
             </Link>
-            <a href="mailto:hello@moodcycle.app" className="transition hover:text-brand-rose-light">
+            <a
+              href="mailto:contact@mymoodcycle.com"
+              className="transition hover:text-brand-rose-light"
+            >
               Contact
             </a>
           </nav>
