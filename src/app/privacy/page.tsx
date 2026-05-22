@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "My Mood Cycle does not collect, store, or transmit your personal data. Everything stays on your device.",
   openGraph: {
-    title: "Privacy Policy — My Mood Cycle",
+    title: "Privacy Policy | My Mood Cycle",
     description:
       "My Mood Cycle does not collect, store, or transmit your personal data. Everything stays on your device.",
     url: "/privacy",
