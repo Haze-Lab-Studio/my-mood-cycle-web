@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     template: "%s | My Mood Cycle",
-    default: "My Mood Cycle | Track Your Cycle, Understand Your Mood",
+    default: "My Mood Cycle | Finally understand why you feel the way you feel.",
   },
   description:
     "Understand how your cycle can influence mood, energy, and emotions. Join the My Mood Cycle waitlist and get the free Emotional Cycle Guide instantly.",

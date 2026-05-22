@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
 
-const siteTitle = "My Mood Cycle | Track Your Cycle, Understand Your Mood";
+const siteTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
 const siteDescription =
   "Understand how your cycle can influence mood, energy, and emotions. Join the My Mood Cycle waitlist and get the free Emotional Cycle Guide instantly.";
 
