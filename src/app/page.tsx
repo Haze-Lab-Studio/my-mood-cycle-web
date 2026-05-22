@@ -7,20 +7,40 @@ import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
 
+const siteTitle = "My Mood Cycle | Track Your Cycle, Understand Your Mood";
+const siteDescription =
+  "Understand how your cycle can influence mood, energy, and emotions. Join the My Mood Cycle waitlist and get the free Emotional Cycle Guide instantly.";
+
+const ogTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
+const ogDescription =
+  "Get the free Emotional Cycle Guide instantly and learn how your cycle can influence mood, energy, and emotions.";
+const ogImage = "/my-mood-cycle-og.png";
+const twitterTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
+const twitterDescription =
+  "Get the free Emotional Cycle Guide instantly and join the waitlist.";
+const shareImage = {
+  url: ogImage,
+  width: 1024,
+  height: 537,
+  alt: "My Mood Cycle — Track your cycle, understand your mood",
+};
+
 export const metadata: Metadata = {
-  title: "My Mood Cycle — Track Your Cycle, Understand Your Mood",
-  description:
-    "My Mood Cycle helps you connect your menstrual cycle phases to your emotional patterns. Know why you feel the way you feel.",
+  title: siteTitle,
+  description: siteDescription,
   openGraph: {
-    title: "My Mood Cycle — Track Your Cycle, Understand Your Mood",
-    description:
-      "Connect your cycle phases to your emotional patterns. Never be caught off guard by your own feelings again.",
     type: "website",
-    url: "/",
-    images: ["/background-icon.png"],
+    title: ogTitle,
+    description: ogDescription,
+    url: "https://mymoodcycle.com",
+    siteName: "My Mood Cycle",
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
+    title: twitterTitle,
+    description: twitterDescription,
+    images: [shareImage],
   },
   alternates: {
     canonical: "/",
