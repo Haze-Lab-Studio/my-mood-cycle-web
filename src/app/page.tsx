@@ -16,8 +16,7 @@ const ogDescription =
   "Get the free Emotional Cycle Guide instantly and learn how your cycle can influence mood, energy, and emotions.";
 const ogImage = "/my-mood-cycle-og.png";
 const twitterTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
-const twitterDescription =
-  "Get the free Emotional Cycle Guide instantly and join the waitlist.";
+const twitterDescription = "Get the free Emotional Cycle Guide instantly and join the waitlist.";
 const shareImage = {
   url: ogImage,
   width: 1024,
