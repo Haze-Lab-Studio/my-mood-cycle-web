@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { BrandName } from "@/components/BrandName";
-import { DownloadButtons } from "@/components/DownloadButtons";
 import { FeatureBlock } from "@/components/FeatureBlock";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
+import { SubscribeForm } from "@/components/SubscribeForm";
 
 const siteTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
 const siteDescription =
@@ -16,8 +16,7 @@ const ogDescription =
   "Get the free Emotional Cycle Guide instantly and learn how your cycle can influence mood, energy, and emotions.";
 const ogImage = "/my-mood-cycle-og.png";
 const twitterTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
-const twitterDescription =
-  "Get the free Emotional Cycle Guide instantly and join the waitlist.";
+const twitterDescription = "Get the free Emotional Cycle Guide instantly and join the waitlist.";
 const shareImage = {
   url: ogImage,
   width: 1024,
@@ -124,13 +123,11 @@ export default function HomePage() {
               energy, and emotions.
             </p>
             <div className="mt-9">
-              <DownloadButtons
+              <SubscribeForm
                 centered
-                emailLabel="Enter your email"
-                emailPlaceholder="Enter your email"
                 submitLabel="Get the free guide"
-                helperText="Instant guide access • Early access to MoodCycle • No spam"
-                helperTextClassName="mx-auto mt-6 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
+                emailPlaceholder="Enter your email"
+                helperText="Instant guide access • Early access to My Mood Cycle • No spam"
               />
             </div>
             <svg
@@ -266,7 +263,7 @@ export default function HomePage() {
             Get the guide instantly and be first to try <BrandName />.
           </p>
           <div className="mt-10">
-            <DownloadButtons
+            <SubscribeForm
               centered
               submitLabel="Get the free guide"
               helperText="Free guide now. Early access later."
