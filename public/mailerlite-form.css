@@ -135,7 +135,7 @@
   .ml-form-successBody
   .ml-form-successContent
   h4 {
-  color: #000;
+  color: #3d2b30;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   font-size: 30px;
   font-weight: 400;
@@ -294,6 +294,11 @@
 #mlb2-41803658.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody,
 #mlb2-41803658.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody {
   padding: 0 !important;
+}
+
+#mlb2-41803658.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody.row-success {
+  background-color: rgba(240, 184, 202, 0.4) !important;
+  padding: 35px !important;
 }
 
 #mlb2-41803658.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-formContent,
