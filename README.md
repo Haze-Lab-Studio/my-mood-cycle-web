@@ -1,6 +1,6 @@
 # My Mood Cycle — Web
 
-Marketing site for [My Mood Cycle](https://moodcycle.app): landing page, privacy policy, and Kit waitlist signup.
+Marketing site for [My Mood Cycle](https://mymoodcycle.com): landing page and privacy policy.
 
 Built with [Next.js](https://nextjs.org/) (App Router), React, and Tailwind CSS v4.
 
@@ -30,14 +30,6 @@ If styles look broken or you see webpack cache errors, use a clean dev start:
 ```bash
 npm run dev:clean
 ```
-
-After editing Kit form styles in `src/styles/kit-form-overrides.css`, sync the public CSS before testing or building:
-
-```bash
-npm run sync:kit-css
-```
-
-(`npm run build` runs this automatically via `prebuild`.)
 
 ## Build
 

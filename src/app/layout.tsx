@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
-import { KIT_CKJS_SRC } from "@/lib/kit-form";
-
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mymoodcycle.com";
@@ -75,12 +73,29 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="/kit-form.css" />
         <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
+        <link rel="stylesheet" href="/mailerlite-form.css" />
       </head>
       <body className="antialiased">
-        <Script src={KIT_CKJS_SRC} strategy="afterInteractive" />
         {children}
+        <Script id="mailerlite-success-callback" strategy="afterInteractive">
+          {`
+            function ml_webform_success_41803658() {
+              var $ = window.ml_jQuery || window.jQuery;
+              if (!$) return;
+              $('.ml-subscribe-form-41803658 .row-success').show();
+              $('.ml-subscribe-form-41803658 .row-form').hide();
+            }
+            window.ml_webform_success_41803658 = ml_webform_success_41803658;
+          `}
+        </Script>
+        <Script
+          src="https://groot.mailerlite.com/js/w/webforms.min.js?vb397d78ebaa8a0f631d35384c46d781b"
+          strategy="afterInteractive"
+        />
+        <Script id="mailerlite-track" strategy="afterInteractive">
+          {`fetch("https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/takel");`}
+        </Script>
       </body>
     </html>
   );
