@@ -75,8 +75,25 @@ export default function RootLayout({
         />
         <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
         <link rel="stylesheet" href="/mailerlite-form.css" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WRDT59TR');`,
+          }}
+        />
       </head>
       <body className="antialiased">
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WRDT59TR"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         {children}
         <Script id="mailerlite-success-callback" strategy="afterInteractive">
           {`
@@ -85,6 +102,10 @@ export default function RootLayout({
               if (!$) return;
               $('.ml-subscribe-form-41803658 .row-success').show();
               $('.ml-subscribe-form-41803658 .row-form').hide();
+
+              // Fire GTM conversion event
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({ event: 'ml-form-success' });
             }
             window.ml_webform_success_41803658 = ml_webform_success_41803658;
           `}
