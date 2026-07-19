@@ -5,6 +5,8 @@ import Image from "next/image";
 
 import { Footer } from "@/components/Footer";
 import { GuideForm } from "@/components/GuideForm";
+import { Nav } from "@/components/Nav";
+import { PhaseCard } from "@/components/PhaseCard";
 
 export const metadata: Metadata = {
   title: {
@@ -19,28 +21,32 @@ export const metadata: Metadata = {
 
 const guideItems = [
   {
+    phase: "Follicular",
     emoji: "🌱",
-    label: "Follicular",
+    tagline: "Everything feels possible",
+    description: "Why this is the week everything feels possible",
     color: "#53C69F",
-    body: "Why this is the week everything feels possible",
   },
   {
+    phase: "Ovulation",
     emoji: "☀️",
-    label: "Ovulation",
+    tagline: "Feel unstoppable",
+    description: "What's actually happening when you feel unstoppable",
     color: "#DB7094",
-    body: "What's actually happening when you feel unstoppable",
   },
   {
+    phase: "Luteal",
     emoji: "🍂",
-    label: "Luteal",
+    tagline: "It's not your fault",
+    description: "The science behind the shift — and why it's not your fault",
     color: "#623E74",
-    body: "The science behind the shift — and why it's not your fault",
   },
   {
+    phase: "Menstrual",
     emoji: "🌙",
-    label: "Menstrual",
+    tagline: "Rest isn't weakness",
+    description: "What your body is asking for and why rest isn't weakness",
     color: "#8C737B",
-    body: "What your body is asking for and why rest isn't weakness",
   },
 ] as const;
 
@@ -50,103 +56,108 @@ const hasGuideCover = existsSync(
 
 export default function GetGuidePage() {
   return (
-    <div className="min-h-screen bg-[#FAF7F5]">
-      <main>
-        <section className="bg-[#FAF7F5] px-6 pt-24 pb-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="font-display text-4xl text-[#3D2930] md:text-5xl">
-              Finally understand why you feel the way you feel.
-            </h1>
-            <p className="mt-4 text-lg text-[#8C737B]">
-              A free guide to the emotional patterns of your cycle — in plain language, no medical
-              degree required.
+    <div className="min-h-screen bg-cream">
+      <Nav />
+
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 right-0 h-[600px] w-[600px] rounded-full opacity-60 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-3xl px-6 pt-14 pb-10 text-center md:px-10 md:pt-[4.9rem] md:pb-14">
+          <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
+            Finally understand why you feel the way you feel.
+          </h1>
+          <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light">
+            A free guide to the emotional patterns of your cycle — in plain language, no medical
+            degree required.
+          </p>
+          <a
+            href="#get-guide"
+            className="mt-9 inline-flex items-center rounded-full bg-brand-rose px-7 py-3.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
+          >
+            Get the free guide
+          </a>
+          {hasGuideCover ? (
+            <Image
+              src="/emotional-cycle-guide-cover.png"
+              alt="Emotional Cycle Guide cover"
+              width={320}
+              height={420}
+              className="mx-auto mt-14 rotate-2 drop-shadow-xl"
+              priority
+            />
+          ) : null}
+        </div>
+      </section>
+
+      <section className="bg-[#FFF7FA] px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-2xl">
+          <h2 className="text-3xl leading-tight text-brand-purple md:text-5xl">
+            You&apos;ve felt it before.
+          </h2>
+          <div className="mt-6 space-y-5 text-lg leading-relaxed text-brand-purple-light">
+            <p>
+              The week where you feel capable, social, energised, like the best version of yourself.
+              And then — without warning — the week where everything feels heavier. Where you cancel
+              plans. Where you wonder what happened to the person you were seven days ago.
             </p>
-            <a
-              href="#get-guide"
-              className="mt-8 inline-flex rounded-full bg-[#DB7094] px-8 py-3 font-semibold text-white transition hover:bg-[#DB7094]/90"
-            >
-              Get the free guide
-            </a>
-            {hasGuideCover ? (
-              <Image
-                src="/emotional-cycle-guide-cover.png"
-                alt="Emotional Cycle Guide cover"
-                width={320}
-                height={420}
-                className="mx-auto mt-10 rotate-2 drop-shadow-xl"
-                priority
-              />
-            ) : null}
+            <p>
+              You&apos;ve probably told yourself it&apos;s stress. Or that you&apos;re just tired. Or
+              that something is wrong with you.
+            </p>
+            <p className="font-medium text-brand-purple">Nothing is wrong with you.</p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="bg-[#FAF7F5] px-6 py-16">
-          <div className="mx-auto max-w-2xl">
-            <h2 className="font-display text-3xl text-[#3D2930]">You&apos;ve felt it before.</h2>
-            <div className="mt-4 space-y-4 leading-relaxed text-[#3D2930]">
-              <p>
-                The week where you feel capable, social, energised, like the best version of
-                yourself. And then — without warning — the week where everything feels heavier. Where
-                you cancel plans. Where you wonder what happened to the person you were seven days
-                ago.
-              </p>
-              <p>
-                You&apos;ve probably told yourself it&apos;s stress. Or that you&apos;re just tired.
-                Or that something is wrong with you.
-              </p>
-              <p>Nothing is wrong with you.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#FAF7F5] px-6 py-16">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="font-display text-3xl text-[#3D2930]">What&apos;s inside</h2>
-            <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-              {guideItems.map((item) => (
-                <div key={item.label}>
-                  <p className="font-semibold" style={{ color: item.color }}>
-                    {item.emoji} {item.label}
-                  </p>
-                  <p className="mt-2 text-[#3D2930]">{item.body}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-center text-[#8C737B]">
+      <section className="px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 max-w-2xl">
+            <h2 className="text-3xl text-brand-purple md:text-5xl">What&apos;s inside</h2>
+            <p className="mt-4 text-lg text-brand-purple-light">
               Plus: a cycle tracker to start mapping your own patterns.
             </p>
           </div>
-        </section>
-
-        <section className="bg-[#FAF7F5] px-6 py-16">
-          <div className="mx-auto max-w-2xl">
-            <h2 className="font-display text-2xl text-[#3D2930]">Why I made this</h2>
-            <div className="mt-4 space-y-4 leading-relaxed text-[#3D2930]">
-              <p>For years, I couldn&apos;t understand the pattern of my ups and downs.</p>
-              <p>
-                I tracked my cycle. I went to therapy. I even started asking ChatGPT why I felt
-                terrible on specific weeks.
-              </p>
-              <p>
-                Eventually I figured it out. And once I did, I wanted to make it easier for everyone
-                else to get there faster.
-              </p>
-              <p>This guide is the thing I wish I&apos;d had years ago. It&apos;s free. It always will be.</p>
-            </div>
-            <p className="mt-6 font-semibold text-[#3D2930]">— Gabi, founder of My Mood Cycle</p>
+          <div className="-mx-6 flex gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
+            {guideItems.map((item) => (
+              <PhaseCard key={item.phase} {...item} />
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="get-guide" className="bg-[#FAF7F5] px-6 py-16">
-          <div className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-[#3D2930]">Get your free guide</h2>
-            <p className="mt-2 text-[#8C737B]">
-              Enter your email and we&apos;ll send it straight to your inbox.
+      <section className="bg-[#F7EEF2] px-6 py-24 md:px-10 md:py-32">
+        <div className="mx-auto max-w-2xl">
+          <h2 className="text-3xl text-brand-purple md:text-5xl">Why I made this</h2>
+          <div className="mt-6 space-y-5 text-lg leading-relaxed text-brand-purple-light">
+            <p>For years, I couldn&apos;t understand the pattern of my ups and downs.</p>
+            <p>
+              I tracked my cycle. I went to therapy. I even started asking ChatGPT why I felt
+              terrible on specific weeks.
             </p>
-            <GuideForm />
+            <p>
+              Eventually I figured it out. And once I did, I wanted to make it easier for everyone
+              else to get there faster.
+            </p>
+            <p>This guide is the thing I wish I&apos;d had years ago. It&apos;s free. It always will be.</p>
           </div>
-        </section>
-      </main>
+          <p className="mt-8 font-medium text-brand-purple">— Gabi, founder of My Mood Cycle</p>
+        </div>
+      </section>
+
+      <section id="get-guide" className="px-6 py-24 text-center md:px-10 md:py-32">
+        <div className="mx-auto max-w-xl">
+          <h2 className="text-3xl text-brand-purple md:text-5xl">Get your free guide</h2>
+          <p className="mt-4 text-lg leading-relaxed text-brand-purple-light">
+            Enter your email and we&apos;ll send it straight to your inbox.
+          </p>
+          <GuideForm />
+        </div>
+      </section>
 
       <Footer />
     </div>

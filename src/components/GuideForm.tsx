@@ -55,15 +55,15 @@ export function GuideForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 w-full text-left" noValidate>
+    <form onSubmit={handleSubmit} className="mt-10 w-full text-left" noValidate>
       <input
         type="text"
         name="firstName"
         autoComplete="given-name"
-        placeholder="First name (optional)"
+        placeholder="First name"
         value={firstName}
         onChange={(event) => setFirstName(event.target.value)}
-        className="w-full rounded-full border border-[#DB7094]/30 bg-white px-5 py-3 text-[#3D2930] placeholder:text-[#8C737B]/70"
+        className="w-full rounded-full border border-brand-rose/30 bg-white px-5 py-3 text-brand-purple placeholder:text-brand-purple-light/70"
       />
 
       <input
@@ -74,7 +74,7 @@ export function GuideForm() {
         placeholder="your@email.com"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        className="mt-3 w-full rounded-full border border-[#DB7094]/30 bg-white px-5 py-3 text-[#3D2930] placeholder:text-[#8C737B]/70 focus:border-[#DB7094] focus:outline-none"
+        className="mt-3 w-full rounded-full border border-brand-rose/30 bg-white px-5 py-3 text-brand-purple placeholder:text-brand-purple-light/70 focus:border-brand-rose focus:outline-none"
       />
 
       {error ? <p className="mt-2 text-sm text-red-500">{error}</p> : null}
@@ -82,12 +82,12 @@ export function GuideForm() {
       <button
         type="submit"
         disabled={loading}
-        className="mt-4 w-full rounded-full bg-[#DB7094] py-3 font-semibold text-white transition hover:bg-[#DB7094]/90 disabled:cursor-not-allowed disabled:opacity-70"
+        className="mx-auto mt-4 block rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {loading ? "Sending…" : "Send me the guide"}
       </button>
 
-      <p className="mt-3 text-center text-xs text-[#8C737B]">
+      <p className="mt-4 text-center text-[0.9rem] leading-relaxed text-brand-purple-light">
         No spam. Unsubscribe any time. Your data stays private.
       </p>
     </form>
