@@ -65,7 +65,7 @@ export default function GetGuidePage() {
               href="#get-guide"
               className="mt-8 inline-flex rounded-full bg-[#DB7094] px-8 py-3 font-semibold text-white transition hover:bg-[#DB7094]/90"
             >
-              Get the free guide →
+              Get the free guide
             </a>
             {hasGuideCover ? (
               <Image

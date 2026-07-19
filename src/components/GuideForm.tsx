@@ -84,7 +84,7 @@ export function GuideForm() {
         disabled={loading}
         className="mt-4 w-full rounded-full bg-[#DB7094] py-3 font-semibold text-white transition hover:bg-[#DB7094]/90 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {loading ? "Sending…" : "Send me the guide →"}
+        {loading ? "Sending…" : "Send me the guide"}
       </button>
 
       <p className="mt-3 text-center text-xs text-[#8C737B]">
