@@ -98,57 +98,69 @@ function WaveIcon({ className = "h-6 w-6" }: { className?: string }) {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-cream">
-      <Nav />
+      <div className="flex min-h-[100dvh] flex-col">
+        <Nav />
 
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 right-0 h-[600px] w-[600px] rounded-full opacity-60 blur-3xl"
-          style={{
-            background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-3xl px-6 pt-14 pb-10 text-center md:px-10 md:pt-[4.9rem] md:pb-14">
-          <div className="animate-fade-up">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
-              <WaveIcon className="h-3.5 w-7" />
-              For every phase
-            </p>
-            <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
-              Finally understand why you feel the way you feel.
-            </h1>
-            <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light">
-              Get <strong className="text-brand-rose">The Emotional Cycle Guide</strong> instantly
-              and join the <BrandName /> waitlist — understand how your cycle influences mood,
-              energy, and emotions.
-            </p>
-            <div className="mt-9">
-              <SubscribeForm
-                centered
-                submitLabel="Get the free guide"
-                emailPlaceholder="Enter your email"
-                helperText="Instant guide access • Early access to My Mood Cycle • No spam"
-              />
+        <section className="relative flex flex-1 items-center overflow-hidden">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-32 right-0 h-[600px] w-[600px] rounded-full opacity-60 blur-3xl"
+            style={{
+              background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
+            }}
+          />
+          <div className="relative mx-auto w-full max-w-6xl px-6 py-10 md:px-10">
+            <div className="animate-fade-up flex flex-col-reverse items-center gap-8 md:flex-row md:items-center md:gap-12 lg:gap-16">
+              <div className="w-full flex-1 text-center md:text-left">
+                <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
+                  <WaveIcon className="h-3.5 w-7" />
+                  For every phase
+                </p>
+                <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
+                  Finally understand why you feel the way you feel.
+                </h1>
+                <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light md:mx-0">
+                  Get <strong className="text-brand-rose">The Emotional Cycle Guide</strong> instantly
+                  and join the <BrandName /> waitlist — understand how your cycle influences mood,
+                  energy, and emotions.
+                </p>
+                <div className="mx-auto mt-9 w-full max-w-md md:mx-0">
+                  <SubscribeForm
+                    submitLabel="Get the free guide"
+                    emailPlaceholder="Enter your email"
+                    helperText="Instant guide access • Early access to My Mood Cycle • No spam"
+                    helperTextClassName="mt-6 max-w-xl text-center text-[0.9rem] leading-relaxed text-brand-purple-light md:text-left"
+                  />
+                </div>
+              </div>
+              <div className="flex w-full flex-1 items-center justify-center md:justify-end">
+                <svg
+                  viewBox="0 0 384 218"
+                  role="img"
+                  aria-label="My Mood Cycle app icon"
+                  className="w-full max-w-[210px] animate-float-slow md:max-w-[420px]"
+                >
+                  <path
+                    className="app-icon-wave"
+                    d="M3.001 108.78C60.525 -32.26 118.049 -32.26 175.573 108.78C233.097 249.82 290.621 249.82 348.146 108.78"
+                    stroke="#DB7094"
+                    strokeWidth="6"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <circle
+                    className="app-icon-dot"
+                    cx="348.146"
+                    cy="108.78"
+                    r="35.26"
+                    fill="#DB7094"
+                  />
+                </svg>
+              </div>
             </div>
-            <svg
-              viewBox="0 0 384 218"
-              role="img"
-              aria-label="My Mood Cycle app icon"
-              className="mx-auto mt-14 w-full max-w-[420px] animate-float-slow"
-            >
-              <path
-                className="app-icon-wave"
-                d="M3.001 108.78C60.525 -32.26 118.049 -32.26 175.573 108.78C233.097 249.82 290.621 249.82 348.146 108.78"
-                stroke="#DB7094"
-                strokeWidth="6"
-                strokeLinecap="round"
-                fill="none"
-              />
-              <circle className="app-icon-dot" cx="348.146" cy="108.78" r="35.26" fill="#DB7094" />
-            </svg>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <section className="bg-[#FFF7FA] px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-[715px] text-center">
