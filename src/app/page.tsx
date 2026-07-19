@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { BrandName } from "@/components/BrandName";
 import { FeatureBlock } from "@/components/FeatureBlock";
@@ -9,14 +10,14 @@ import { SubscribeForm } from "@/components/SubscribeForm";
 
 const siteTitle = "My Mood Cycle | Stop wondering what's wrong with you.";
 const siteDescription =
-  "My Mood Cycle connects how you feel right now to where you are in your cycle. Get the free Emotional Cycle Guide and join the waitlist.";
+  "My Mood Cycle connects how you feel right now to where you are in your cycle. Join the waitlist to be first when we launch.";
 
 const ogTitle = "My Mood Cycle | Stop wondering what's wrong with you.";
 const ogDescription =
-  "Get the free Emotional Cycle Guide and learn how your feelings can connect to where you are in your cycle.";
+  "Join the My Mood Cycle waitlist — the emotional awareness app that connects how you feel to where you are in your cycle.";
 const ogImage = "/my-mood-cycle-og.png";
 const twitterTitle = "My Mood Cycle | Stop wondering what's wrong with you.";
-const twitterDescription = "Get the free Emotional Cycle Guide instantly and join the waitlist.";
+const twitterDescription = "Join the waitlist and be the first to know when we launch.";
 const shareImage = {
   url: ogImage,
   width: 1024,
@@ -120,9 +121,8 @@ export default function HomePage() {
             </h1>
             <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light">
               <BrandName /> connects how you feel right now to where you are in your cycle — so you
-              can start understanding what&apos;s happening to you. Get{" "}
-              <strong className="text-brand-rose">The Emotional Cycle Guide</strong> and join the
-              waitlist.
+              can start understanding what&apos;s happening to you. Join the waitlist to be first
+              when we launch.
             </p>
             <p className="mx-auto mt-4 max-w-[650px] font-display text-lg italic text-brand-purple">
               You&apos;re not broken. You just need to wait a few days.
@@ -130,9 +130,9 @@ export default function HomePage() {
             <div className="mt-9">
               <SubscribeForm
                 centered
-                submitLabel="Get the free guide"
+                submitLabel="Join the waitlist"
                 emailPlaceholder="Enter your email"
-                helperText="Instant guide access • Early access to My Mood Cycle • No spam"
+                helperText="Be the first to know when we launch • No spam"
               />
             </div>
             <svg
@@ -256,19 +256,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="download" className="px-6 py-24 text-center md:px-10 md:py-32">
+      <section id="waitlist" className="px-6 py-24 text-center md:px-10 md:py-32">
         <div className="mx-auto max-w-none">
           <h2 className="text-3xl text-brand-purple md:text-5xl">
-            Get your free <span className="text-brand-rose">Emotional Cycle Guide</span>
+            Be the first to know when we{" "}
+            <span className="text-brand-rose">launch</span>
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-brand-purple-light">
-            Get the guide instantly and be first to try <BrandName />.
+            Join the <BrandName /> waitlist for early access.
           </p>
           <div className="mt-10">
             <SubscribeForm
               centered
-              submitLabel="Get the free guide"
-              helperText="Free guide now. Early access later."
+              submitLabel="Join the waitlist"
+              helperText={
+                <>
+                  Early access when we launch. No spam.
+                  <br />
+                  <Link
+                    href="/get-guide"
+                    className="mt-2 inline-block text-brand-purple underline decoration-brand-rose/40 underline-offset-4 transition hover:text-brand-rose hover:decoration-brand-rose"
+                  >
+                    Looking for the Emotional Cycle Guide? It lives here
+                  </Link>
+                </>
+              }
               helperTextClassName="mx-auto mt-4 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
             />
           </div>

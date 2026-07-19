@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     default: "My Mood Cycle | Stop wondering what's wrong with you.",
   },
   description:
-    "My Mood Cycle connects how you feel right now to where you are in your cycle. Get the free Emotional Cycle Guide and join the waitlist.",
+    "My Mood Cycle connects how you feel right now to where you are in your cycle. Join the waitlist to be first when we launch.",
   keywords: [
     "emotional awareness",
     "cycle phases",

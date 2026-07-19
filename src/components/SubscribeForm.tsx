@@ -13,7 +13,7 @@ const defaultHelperTextClassName =
 
 export function SubscribeForm({
   centered = false,
-  submitLabel = "Get the free guide",
+  submitLabel = "Join the waitlist",
   emailPlaceholder = "Enter your email",
   helperText,
   helperTextClassName = defaultHelperTextClassName,
@@ -74,8 +74,7 @@ export function SubscribeForm({
                   We&apos;ve sent a confirmation email to your inbox.
                   <br />
                   <br />
-                  Please confirm your subscription to unlock your free Emotional Cycle Guide and
-                  join the My Mood Cycle waitlist.
+                  Please confirm your subscription to join the My Mood Cycle waitlist.
                   <br />
                   <br />
                   Don&apos;t see it? Check your spam or promotions folder.

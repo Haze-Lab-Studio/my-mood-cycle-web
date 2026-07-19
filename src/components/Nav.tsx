@@ -23,10 +23,10 @@ export function Nav() {
           <img src="/logo-horizontal.svg" alt="My Mood Cycle" className="h-8 w-auto md:h-9" />
         </Link>
         <Link
-          href="/#download"
+          href="/#waitlist"
           className="inline-flex items-center rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
         >
-          Get the guide
+          Join the waitlist
         </Link>
       </nav>
     </header>
