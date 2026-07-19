@@ -7,21 +7,21 @@ import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
 
-const siteTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
+const siteTitle = "My Mood Cycle | Stop wondering what's wrong with you.";
 const siteDescription =
-  "Understand how your cycle can influence mood, energy, and emotions. Join the My Mood Cycle waitlist and get the free Emotional Cycle Guide instantly.";
+  "My Mood Cycle connects how you feel right now to where you are in your cycle. Get the free Emotional Cycle Guide and join the waitlist.";
 
-const ogTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
+const ogTitle = "My Mood Cycle | Stop wondering what's wrong with you.";
 const ogDescription =
-  "Get the free Emotional Cycle Guide instantly and learn how your cycle can influence mood, energy, and emotions.";
+  "Get the free Emotional Cycle Guide and learn how your feelings can connect to where you are in your cycle.";
 const ogImage = "/my-mood-cycle-og.png";
-const twitterTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
+const twitterTitle = "My Mood Cycle | Stop wondering what's wrong with you.";
 const twitterDescription = "Get the free Emotional Cycle Guide instantly and join the waitlist.";
 const shareImage = {
   url: ogImage,
   width: 1024,
   height: 537,
-  alt: "My Mood Cycle — Track your cycle, understand your mood",
+  alt: "My Mood Cycle — emotional awareness for every phase of your cycle",
 };
 
 export const metadata: Metadata = {
@@ -49,33 +49,34 @@ export const metadata: Metadata = {
 const phases = [
   {
     phase: "Menstrual",
-    emoji: "🌑",
-    tagline: "Rest without guilt",
+    emoji: "◦",
+    tagline: "Rest when you need to",
     description:
-      "Energy is low and inward. Permission to slow down — your body is doing real work.",
+      "Energy might feel lower and more inward. It can help to slow down — this phase often asks for that.",
     color: "#9E8EA0",
   },
   {
     phase: "Follicular",
     emoji: "🌱",
-    tagline: "Your ideas are gold right now",
-    description: "Curiosity returns. A great window for starting things and thinking clearly.",
+    tagline: "Ideas might come easier",
+    description:
+      "Curiosity often returns. This can be a good window for starting things and thinking clearly.",
     color: "#A8C5A0",
   },
   {
     phase: "Ovulatory",
     emoji: "☀️",
-    tagline: "You're magnetic",
+    tagline: "Connection may feel easier",
     description:
-      "Confidence and connection peak. Conversations feel easier, social energy expands.",
+      "Confidence and social energy can peak. Conversations might feel more natural.",
     color: "#E8B86D",
   },
   {
     phase: "Luteal",
     emoji: "🍂",
-    tagline: "Your feelings are valid — all of them",
+    tagline: "Your feelings still count",
     description:
-      "Sensitivity sharpens. Be gentle with yourself; this is when your honesty deepens.",
+      "Sensitivity can sharpen. Be gentle with yourself — honesty often deepens here.",
     color: "#C4956A",
   },
 ];
@@ -112,15 +113,19 @@ export default function HomePage() {
           <div className="animate-fade-up">
             <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
               <WaveIcon className="h-3.5 w-7" />
-              For every phase
+              Emotional awareness for every phase
             </p>
             <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
-              Finally understand why you feel the way you feel.
+              Stop wondering what&apos;s wrong with you.
             </h1>
             <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light">
-              Get <strong className="text-brand-rose">The Emotional Cycle Guide</strong> instantly
-              and join the <BrandName /> waitlist — understand how your cycle influences mood,
-              energy, and emotions.
+              <BrandName /> connects how you feel right now to where you are in your cycle — so you
+              can start understanding what&apos;s happening to you. Get{" "}
+              <strong className="text-brand-rose">The Emotional Cycle Guide</strong> and join the
+              waitlist.
+            </p>
+            <p className="mx-auto mt-4 max-w-[650px] font-display text-lg italic text-brand-purple">
+              You&apos;re not broken. You just need to wait a few days.
             </p>
             <div className="mt-9">
               <SubscribeForm
@@ -153,20 +158,21 @@ export default function HomePage() {
       <section className="bg-[#FFF7FA] px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-[715px] text-center">
           <h2 className="text-3xl leading-tight text-brand-purple md:text-5xl">
-            Most cycle apps track your body.{" "}
-            <span className="italic text-brand-rose">My Mood Cycle tracks how you feel.</span>
+            Your feelings aren&apos;t random.{" "}
+            <span className="italic text-brand-rose">They&apos;re patterns.</span>
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-brand-purple-light">
-            Existing apps focus on fertility windows and physical symptoms. But your cycle affects
-            your energy, your patience, your confidence, your creativity — and nobody talks about
-            that. <BrandName /> changes that.
+            For women who feel blindsided by their own emotions, <BrandName /> is the emotional
+            awareness app that connects how you feel right now to where you are in your cycle — so
+            you can stop wondering what&apos;s wrong with you and start understanding what&apos;s
+            happening to you. No weeks of logging. No overwhelm. Just clarity from day one.
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-6xl gap-12 md:mt-20 md:grid-cols-3 md:gap-10">
           <FeatureBlock
             icon={<WaveIcon className="h-7 w-12" />}
-            title="Phase-aware mood context"
-            description="See exactly which phase you're in and what it means emotionally, the moment you open the app."
+            title="Awareness from day one"
+            description="Emotional phase context the moment you open the app — no weeks of logging required to see what might be going on."
           />
           <FeatureBlock
             icon={
@@ -183,13 +189,8 @@ export default function HomePage() {
                 <path d="M6 12 Q12 5 18 12" />
               </svg>
             }
-            title="No fertility focus"
-            description={
-              <>
-                <BrandName /> isn&apos;t about when to conceive. It&apos;s about understanding
-                yourself.
-              </>
-            }
+            title="Ahead of the hard days"
+            description="Proactive notifications that can reach you before a harder phase hits — so you're not caught off guard."
           />
           <FeatureBlock
             icon={
@@ -206,8 +207,8 @@ export default function HomePage() {
                 <path d="M12 3 L20 6 V12 C20 16.5 16.5 20 12 21 C7.5 20 4 16.5 4 12 V6 Z" />
               </svg>
             }
-            title="Private by design"
-            description="Your data stays on your device. No accounts required to get started."
+            title="Private, simple, personal"
+            description="No account. No server. Nothing sold or shared. No marketplace, no chatbot, no overwhelm. Built by someone who needed it."
           />
         </div>
       </section>
@@ -219,7 +220,7 @@ export default function HomePage() {
               Know your phase. Understand your mood.
             </h2>
             <p className="mt-4 text-lg text-brand-purple-light">
-              A simple framework for the four phases — and what they mean for how you feel.
+              A simple framework for the four phases — and what they might mean for how you feel.
             </p>
           </div>
           <div className="-mx-6 flex gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
@@ -236,7 +237,8 @@ export default function HomePage() {
             A daily check-in that actually means something.
           </h2>
           <p className="mt-4 max-w-xl text-lg text-brand-purple-light">
-            Open the app. See your phase. Get the emotional context — in one calm screen.
+            Open the app. See your phase. Get emotional context — in one calm screen. Over time,
+            patterns become clearer.
           </p>
 
           <div className="relative mt-14">

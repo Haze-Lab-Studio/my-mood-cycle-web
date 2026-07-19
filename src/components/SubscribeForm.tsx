@@ -69,7 +69,7 @@ export function SubscribeForm({
 
             <div className="ml-form-successBody row-success" style={{ display: "none" }}>
               <div className="ml-form-successContent">
-                <h4>🌸 Almost there!</h4>
+                <h4>Almost there!</h4>
                 <p>
                   We&apos;ve sent a confirmation email to your inbox.
                   <br />
