@@ -4,7 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function Nav() {
+type Props = {
+  showCta?: boolean;
+};
+
+export function Nav({ showCta = true }: Props) {
   const pathname = usePathname();
   const guideHref = pathname === "/get-guide" ? "#get-guide" : "/#download";
   const [scrolled, setScrolled] = useState(false);
@@ -25,12 +29,14 @@ export function Nav() {
         <Link href="/" aria-label="My Mood Cycle home" className="flex items-center">
           <img src="/logo-horizontal.svg" alt="My Mood Cycle" className="h-8 w-auto md:h-9" />
         </Link>
-        <Link
-          href={guideHref}
-          className="inline-flex items-center rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
-        >
-          Get the guide
-        </Link>
+        {showCta ? (
+          <Link
+            href={guideHref}
+            className="inline-flex items-center rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
+          >
+            Get the guide
+          </Link>
+        ) : null}
       </nav>
     </header>
   );
