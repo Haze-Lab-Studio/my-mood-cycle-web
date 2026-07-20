@@ -47,8 +47,8 @@ npm run start
 
 ## Other scripts
 
-| Script           | Description                      |
-| ---------------- | -------------------------------- |
-| `npm run lint`   | Run ESLint                       |
-| `npm run format` | Format with Prettier             |
-| `npm run clean`  | Remove `.next` and webpack cache |
+| Script           | Description                              |
+| ---------------- | ---------------------------------------- |
+| `npm run lint`   | Run ESLint                               |
+| `npm run format` | Format with Prettier                     |
+| `npm run clean`  | Remove `.next`, webpack cache, and `out` |

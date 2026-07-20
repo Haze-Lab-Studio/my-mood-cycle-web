@@ -21,6 +21,8 @@
 
   --font-display: "DM Serif Display", Georgia, serif;
   --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "DM Serif Display", Georgia, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
