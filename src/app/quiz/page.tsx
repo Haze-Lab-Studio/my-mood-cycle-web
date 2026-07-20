@@ -366,9 +366,9 @@ export default function QuizPage() {
             <button
               type="button"
               onClick={handleStart}
-              className="mt-10 rounded-full bg-[#DB7094] px-8 py-3 font-sans font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#DB7094]"
+              className="mt-10 cursor-pointer rounded-full bg-[#DB7094] px-8 py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094]"
             >
-              Find out →
+              Find out
             </button>
           </div>
         ) : null}
@@ -472,9 +472,9 @@ export default function QuizPage() {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="primary w-full rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:opacity-70"
+                          className="primary w-full cursor-pointer rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:cursor-not-allowed disabled:opacity-70"
                         >
-                          {isSubmitting ? "Sending…" : "Unlock my result →"}
+                          {isSubmitting ? "Sending…" : "Unlock my result"}
                         </button>
                         <button
                           disabled
@@ -526,9 +526,9 @@ export default function QuizPage() {
               <p className="mt-4 font-sans leading-relaxed">{result.ctaLine2}</p>
               <a
                 href="https://mymoodcycle.com/#waitlist"
-                className="mt-6 inline-block rounded-full bg-[#DB7094] px-6 py-3 font-sans font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#DB7094] focus:ring-offset-2 focus:ring-offset-[#623E74]"
+                className="mt-6 inline-block cursor-pointer rounded-full bg-[#DB7094] px-6 py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] focus:ring-offset-2 focus:ring-offset-[#623E74]"
               >
-                Join the waitlist →
+                Join the waitlist
               </a>
             </div>
           </div>
