@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -8,6 +9,10 @@ type Props = {
 };
 
 export function Nav({ showCta = true }: Props) {
+  const pathname = usePathname();
+  const isGuidePage = pathname === "/get-guide";
+  const ctaHref = isGuidePage ? "#get-guide" : "/#waitlist";
+  const ctaLabel = isGuidePage ? "Get the guide" : "Join the waitlist";
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -28,10 +33,10 @@ export function Nav({ showCta = true }: Props) {
         </Link>
         {showCta ? (
           <Link
-            href="/#waitlist"
+            href={ctaHref}
             className="inline-flex items-center rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
           >
-            Join the waitlist
+            {ctaLabel}
           </Link>
         ) : null}
       </nav>
