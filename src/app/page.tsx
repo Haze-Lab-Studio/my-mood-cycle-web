@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
+import { WaveLoader } from "@/components/WaveLoader";
 
 const siteTitle = "My Mood Cycle | Finally understand why you feel the way you feel.";
 const siteDescription =
@@ -130,22 +131,7 @@ export default function HomePage() {
                 helperText="Instant guide access • Early access to My Mood Cycle • No spam"
               />
             </div>
-            <svg
-              viewBox="0 0 384 218"
-              role="img"
-              aria-label="My Mood Cycle app icon"
-              className="mx-auto mt-14 w-full max-w-[420px] animate-float-slow"
-            >
-              <path
-                className="app-icon-wave"
-                d="M3.001 108.78C60.525 -32.26 118.049 -32.26 175.573 108.78C233.097 249.82 290.621 249.82 348.146 108.78"
-                stroke="#DB7094"
-                strokeWidth="6"
-                strokeLinecap="round"
-                fill="none"
-              />
-              <circle className="app-icon-dot" cx="348.146" cy="108.78" r="35.26" fill="#DB7094" />
-            </svg>
+            <WaveLoader size="hero" label="My Mood Cycle app icon" />
           </div>
         </div>
       </section>

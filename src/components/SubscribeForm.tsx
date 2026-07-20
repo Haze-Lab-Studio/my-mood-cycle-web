@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { WaveLoader } from "@/components/WaveLoader";
+
 type Props = {
   centered?: boolean;
   submitLabel?: string;
@@ -58,7 +60,7 @@ export function SubscribeForm({
                     {submitLabel}
                   </button>
                   <button disabled type="button" className="loading" style={{ display: "none" }}>
-                    <div className="ml-form-embedSubmitLoad" />
+                    <WaveLoader size="sm" className="mx-auto text-white" label="Loading" />
                     <span className="sr-only">Loading...</span>
                   </button>
                 </div>
