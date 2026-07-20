@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 /** Same public MailerLite form used by the waitlist (no API key). */
 const MAILERLITE_FORM_ACTION =
   "https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/subscribe";
+
+/** MailerLite embeds don't surface errors to the page; treat silence as failure. */
+const SUBMIT_TIMEOUT_MS = 15_000;
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "pattern" | "energy" | "sensitivity";
@@ -247,18 +250,28 @@ export default function QuizPage() {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const submitTimeoutRef = useRef<number | null>(null);
+
+  function clearSubmitTimeout() {
+    if (submitTimeoutRef.current !== null) {
+      window.clearTimeout(submitTimeoutRef.current);
+      submitTimeoutRef.current = null;
+    }
+  }
 
   useEffect(() => {
     const mlWindow = window as MailerLiteWindow;
     const previous = mlWindow.ml_webform_success_41803658;
 
     mlWindow.ml_webform_success_41803658 = () => {
+      clearSubmitTimeout();
       previous?.();
       setIsSubmitting(false);
       setCurrentState("result");
     };
 
     return () => {
+      clearSubmitTimeout();
       mlWindow.ml_webform_success_41803658 = previous;
     };
   }, []);
@@ -308,6 +321,13 @@ export default function QuizPage() {
     }
 
     setIsSubmitting(true);
+    clearSubmitTimeout();
+    submitTimeoutRef.current = window.setTimeout(() => {
+      submitTimeoutRef.current = null;
+      console.error("Quiz MailerLite subscribe timed out or failed", { resultKey });
+      setIsSubmitting(false);
+      setEmailError("Something went wrong. Please try again.");
+    }, SUBMIT_TIMEOUT_MS);
   }
 
   const question = QUESTIONS[currentQuestion];
