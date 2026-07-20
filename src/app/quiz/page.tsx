@@ -227,6 +227,12 @@ function tallyResult(scores: Scores): ResultKey {
   return "sensitivity";
 }
 
+/** Q2 awareness modifier — personalises the result description (Notion quiz brief). */
+const AWARENESS_NOTE = {
+  high: "You've felt this before but never had a framework.",
+  low: "This might explain something you've been wondering about.",
+} as const;
+
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 }
@@ -436,6 +442,10 @@ export default function QuizPage() {
                 {paragraph}
               </p>
             ))}
+
+            <p className="mt-4 font-sans leading-relaxed text-[#3D2930]">
+              {awarenessHigh ? AWARENESS_NOTE.high : AWARENESS_NOTE.low}
+            </p>
 
             <hr className="mt-8 border-0 border-t border-[#DB7094]" />
             <p className="mt-8 font-sans text-sm font-semibold text-[#3D2930]">{result.insight}</p>
