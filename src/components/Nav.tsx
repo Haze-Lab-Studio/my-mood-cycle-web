@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function Nav() {
+  const pathname = usePathname();
+  const guideHref = pathname === "/get-guide" ? "#get-guide" : "/#download";
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -23,7 +26,7 @@ export function Nav() {
           <img src="/logo-horizontal.svg" alt="My Mood Cycle" className="h-8 w-auto md:h-9" />
         </Link>
         <Link
-          href="/#download"
+          href={guideHref}
           className="inline-flex items-center rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
         >
           Get the guide
