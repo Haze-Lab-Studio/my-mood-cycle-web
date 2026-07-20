@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { Footer } from "@/components/Footer";
-import { GuideForm } from "@/components/GuideForm";
 import { Nav } from "@/components/Nav";
 import { PhaseCard } from "@/components/PhaseCard";
+import { SubscribeForm } from "@/components/SubscribeForm";
 
 export const metadata: Metadata = {
   title: {
@@ -155,7 +155,15 @@ export default function GetGuidePage() {
           <p className="mt-4 text-lg leading-relaxed text-brand-purple-light">
             Enter your email and we&apos;ll send it straight to your inbox.
           </p>
-          <GuideForm />
+          <div className="mt-10">
+            <SubscribeForm
+              centered
+              submitLabel="Send me the guide"
+              emailPlaceholder="your@email.com"
+              helperText="No spam. Unsubscribe any time. Your data stays private."
+              helperTextClassName="mx-auto mt-4 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
+            />
+          </div>
         </div>
       </section>
 
