@@ -360,7 +360,7 @@ export default function QuizPage() {
             <h1 className="font-serif text-4xl text-[#3D2930] md:text-5xl">
               Why do I feel so different every few weeks?
             </h1>
-            <p className="mt-6 font-sans text-lg text-[#8C737B]">
+            <p className="mx-auto mt-6 max-w-lg font-sans text-lg text-[#8C737B]">
               Answer 5 questions and find out what your emotional pattern is actually telling you.
             </p>
             <button
