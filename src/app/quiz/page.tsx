@@ -341,18 +341,23 @@ export default function QuizPage() {
       <Nav showCta={false} />
 
       {currentState === "question" ? (
-        <div
-          role="progressbar"
-          aria-label="Quiz progress"
-          aria-valuemin={0}
-          aria-valuenow={currentQuestion}
-          aria-valuemax={QUESTIONS.length}
-          className="h-1 w-full bg-[#DB7094]/15"
-        >
+        <div className="mx-auto mt-6 w-full max-w-2xl px-6">
+          <p className="mb-2 text-right font-sans text-sm text-[#8C737B]">
+            {currentQuestion + 1} / {QUESTIONS.length}
+          </p>
           <div
-            className="h-full bg-[#DB7094] transition-[width] duration-300 ease-out"
-            style={{ width: `${(currentQuestion / QUESTIONS.length) * 100}%` }}
-          />
+            role="progressbar"
+            aria-label="Quiz progress"
+            aria-valuemin={1}
+            aria-valuenow={currentQuestion + 1}
+            aria-valuemax={QUESTIONS.length}
+            className="h-1 w-full bg-[#DB7094]/15"
+          >
+            <div
+              className="h-full bg-[#DB7094] transition-[width] duration-300 ease-out"
+              style={{ width: `${((currentQuestion + 1) / QUESTIONS.length) * 100}%` }}
+            />
+          </div>
         </div>
       ) : null}
 
