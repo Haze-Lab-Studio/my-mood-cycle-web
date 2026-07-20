@@ -316,7 +316,14 @@ export default function QuizPage() {
   return (
     <div className="min-h-screen bg-[#FAF7F5]">
       {currentState === "question" ? (
-        <div className="h-1 w-full bg-[#DB7094]/15">
+        <div
+          role="progressbar"
+          aria-label="Quiz progress"
+          aria-valuemin={0}
+          aria-valuenow={currentQuestion}
+          aria-valuemax={QUESTIONS.length}
+          className="h-1 w-full bg-[#DB7094]/15"
+        >
           <div
             className="h-full bg-[#DB7094] transition-[width] duration-300 ease-out"
             style={{ width: `${(currentQuestion / QUESTIONS.length) * 100}%` }}
@@ -351,6 +358,9 @@ export default function QuizPage() {
             key={currentState}
             className="animate-in fade-in flex w-full flex-col items-center duration-200"
           >
+            <p className="sr-only" aria-live="polite" aria-atomic="true">
+              Question {currentQuestion + 1} of {QUESTIONS.length}: {question.text}
+            </p>
             <h2 className="text-center font-serif text-2xl text-[#3D2930] md:text-3xl">
               {question.text}
             </h2>
@@ -361,7 +371,6 @@ export default function QuizPage() {
                   <button
                     key={option.label}
                     type="button"
-                    role="button"
                     disabled={selectedOption !== null}
                     onClick={() => handleSelectOption(index, option.effect)}
                     className={`w-full rounded-full border px-5 py-3 text-left font-sans text-[#3D2930] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DB7094] ${
