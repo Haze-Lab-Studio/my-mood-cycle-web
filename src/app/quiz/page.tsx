@@ -369,7 +369,7 @@ export default function QuizPage() {
                 const isSelected = selectedOption === index;
                 return (
                   <button
-                    key={option.label}
+                    key={`${currentQuestion}-${index}`}
                     type="button"
                     disabled={selectedOption !== null}
                     onClick={() => handleSelectOption(index, option.effect)}
@@ -446,8 +446,8 @@ export default function QuizPage() {
           <div key={currentState} className="animate-in fade-in w-full duration-200">
             <h1 className="font-serif text-3xl text-[#3D2930] md:text-4xl">{result.name}</h1>
             <p className="mt-4 font-serif text-xl italic text-[#3D2930]">{result.subheading}</p>
-            {result.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="mt-4 font-sans leading-relaxed text-[#3D2930]">
+            {result.paragraphs.map((paragraph, index) => (
+              <p key={index} className="mt-4 font-sans leading-relaxed text-[#3D2930]">
                 {paragraph}
               </p>
             ))}
