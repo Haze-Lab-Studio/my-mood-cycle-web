@@ -284,12 +284,16 @@ export default function QuizPage() {
     setCurrentState("question");
   }
 
-  function handleSelectOption(optionIndex: number, effect: OptionEffect) {
-    if (selectedOption !== null) return;
-
+  function handleSelectOption(optionIndex: number) {
     setSelectedOption(optionIndex);
+  }
 
+  function handleContinue() {
+    if (selectedOption === null) return;
+
+    const effect = QUESTIONS[currentQuestion].options[selectedOption].effect;
     let nextScores = scores;
+
     if (effect.type === "score") {
       nextScores = {
         ...scores,
@@ -300,18 +304,15 @@ export default function QuizPage() {
       setAwarenessHigh(effect.value);
     }
 
-    window.setTimeout(() => {
-      if (currentQuestion >= QUESTIONS.length - 1) {
-        const winner = tallyResult(nextScores);
-        setResultKey(winner);
-        setSelectedOption(null);
-        setCurrentState("gate");
-        return;
-      }
-
-      setCurrentQuestion((q) => q + 1);
+    if (currentQuestion >= QUESTIONS.length - 1) {
+      setResultKey(tallyResult(nextScores));
       setSelectedOption(null);
-    }, 300);
+      setCurrentState("gate");
+      return;
+    }
+
+    setCurrentQuestion((q) => q + 1);
+    setSelectedOption(null);
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -391,7 +392,7 @@ export default function QuizPage() {
             <p className="sr-only" aria-live="polite" aria-atomic="true">
               Question {currentQuestion + 1} of {QUESTIONS.length}: {question.text}
             </p>
-            <h2 className="text-center font-serif text-2xl text-[#3D2930] md:text-3xl">
+            <h2 className="mx-auto max-w-xl text-center font-serif text-2xl text-[#3D2930] md:text-3xl">
               {question.text}
             </h2>
             <div className="mt-10 flex w-full max-w-md flex-col gap-3">
@@ -401,9 +402,8 @@ export default function QuizPage() {
                   <button
                     key={`${currentQuestion}-${index}`}
                     type="button"
-                    disabled={selectedOption !== null}
-                    onClick={() => handleSelectOption(index, option.effect)}
-                    className={`w-full rounded-full border px-5 py-3 text-left font-sans text-[#3D2930] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DB7094] ${
+                    onClick={() => handleSelectOption(index)}
+                    className={`w-full cursor-pointer rounded-full border-2 px-5 py-3 text-left font-sans text-[#3D2930] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DB7094] ${
                       isSelected
                         ? "border-[#DB7094] bg-[#DB7094]/10"
                         : "border-[#DB7094]/30 bg-white hover:border-[#DB7094]"
@@ -414,6 +414,14 @@ export default function QuizPage() {
                 );
               })}
             </div>
+            <button
+              type="button"
+              onClick={handleContinue}
+              disabled={selectedOption === null}
+              className="mt-8 cursor-pointer rounded-full bg-[#DB7094] px-8 py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#DB7094]"
+            >
+              {currentQuestion >= QUESTIONS.length - 1 ? "See my result" : "Continue"}
+            </button>
           </div>
         ) : null}
 
