@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
+import { Footer } from "@/components/Footer";
+import { Nav } from "@/components/Nav";
+
 /** Same public MailerLite form used by the waitlist (no API key). */
 const MAILERLITE_FORM_ACTION =
   "https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/subscribe";
@@ -334,7 +337,9 @@ export default function QuizPage() {
   const result = resultKey ? RESULTS[resultKey] : null;
 
   return (
-    <div className="min-h-screen bg-[#FAF7F5]">
+    <div className="flex min-h-screen flex-col bg-[#FAF7F5]">
+      <Nav showCta={false} />
+
       {currentState === "question" ? (
         <div
           role="progressbar"
@@ -351,7 +356,7 @@ export default function QuizPage() {
         </div>
       ) : null}
 
-      <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-6 py-16 md:py-24">
+      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-6 py-16 md:py-24">
         {currentState === "intro" ? (
           <div
             key={currentState}
@@ -534,6 +539,8 @@ export default function QuizPage() {
           </div>
         ) : null}
       </main>
+
+      <Footer />
     </div>
   );
 }
