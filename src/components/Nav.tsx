@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
 };
 
 export function Nav({ showCta = true }: Props) {
+  const pathname = usePathname();
+  const guideHref = pathname === "/get-guide" ? "#get-guide" : "/#download";
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -28,7 +31,7 @@ export function Nav({ showCta = true }: Props) {
         </Link>
         {showCta ? (
           <Link
-            href="/#download"
+            href={guideHref}
             className="inline-flex items-center rounded-full bg-brand-rose px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-brand-rose/90"
           >
             Get the guide
