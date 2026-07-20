@@ -422,39 +422,81 @@ export default function QuizPage() {
               Enter your email to unlock your full result and get your free Emotional Cycle Guide.
             </p>
 
-            <form
-              className="ml-block-form mt-8 w-full max-w-md"
-              action={MAILERLITE_FORM_ACTION}
-              method="post"
-              onSubmit={handleSubmit}
+            {/*
+              MailerLite webforms.min.js only binds forms inside .ml-subscribe-form
+              (see selector `.ml-subscribe-form form`). Match SubscribeForm's embed
+              markup so submit is intercepted; target="_blank" keeps the quiz page
+              if interception ever fails.
+            */}
+            <div
+              id="mlb2-41803658"
+              className="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-41803658 mt-8 w-full max-w-md"
             >
-              <input
-                type="email"
-                name="fields[email]"
-                autoComplete="email"
-                aria-label="email"
-                aria-required="true"
-                value={email}
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                  if (emailError) setEmailError("");
-                }}
-                placeholder="your@email.com"
-                className="w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
-              />
-              {emailError ? (
-                <p className="mt-2 text-left text-sm text-red-500">{emailError}</p>
-              ) : null}
-              <input type="hidden" name="ml-submit" value="1" />
-              <input type="hidden" name="anticsrf" value="true" />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-4 w-full rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:opacity-70"
-              >
-                {isSubmitting ? "Sending…" : "Unlock my result →"}
-              </button>
-            </form>
+              <div className="ml-form-align-center">
+                <div className="ml-form-embedWrapper embedForm">
+                  <div className="ml-form-embedBody ml-form-embedBodyDefault row-form">
+                    <form
+                      className="ml-block-form"
+                      action={MAILERLITE_FORM_ACTION}
+                      data-code=""
+                      method="post"
+                      target="_blank"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="ml-form-formContent">
+                        <div className="ml-form-fieldRow ml-last-item">
+                          <div className="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                            <input
+                              type="email"
+                              name="fields[email]"
+                              autoComplete="email"
+                              aria-label="email"
+                              aria-required="true"
+                              data-inputmask=""
+                              value={email}
+                              onChange={(event) => {
+                                setEmail(event.target.value);
+                                if (emailError) setEmailError("");
+                              }}
+                              placeholder="your@email.com"
+                              className="form-control w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      {emailError ? (
+                        <p className="mt-2 text-left text-sm text-red-500">{emailError}</p>
+                      ) : null}
+                      <input type="hidden" name="ml-submit" value="1" />
+                      <div className="ml-form-embedSubmit">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="primary w-full rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:opacity-70"
+                        >
+                          {isSubmitting ? "Sending…" : "Unlock my result →"}
+                        </button>
+                        <button
+                          disabled
+                          type="button"
+                          className="loading"
+                          style={{ display: "none" }}
+                        >
+                          <div className="ml-form-embedSubmitLoad" />
+                          <span className="sr-only">Loading...</span>
+                        </button>
+                      </div>
+                      <input type="hidden" name="anticsrf" value="true" />
+                    </form>
+                  </div>
+                  <div className="ml-form-successBody row-success" style={{ display: "none" }}>
+                    <div className="ml-form-successContent">
+                      <p>Unlocking your result…</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <p className="mt-4 font-sans text-xs text-[#8C737B]">
               No spam. Unsubscribe any time. Your data stays private.
