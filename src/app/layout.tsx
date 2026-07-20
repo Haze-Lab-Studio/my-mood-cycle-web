@@ -99,13 +99,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           {`
             function ml_webform_success_41803658() {
               var $ = window.ml_jQuery || window.jQuery;
-              if (!$) return;
-              $('.ml-subscribe-form-41803658 .row-success').show();
-              $('.ml-subscribe-form-41803658 .row-form').hide();
+              if ($) {
+                $('.ml-subscribe-form-41803658 .row-success').show();
+                $('.ml-subscribe-form-41803658 .row-form').hide();
+              }
 
               // Fire GTM conversion event
               window.dataLayer = window.dataLayer || [];
               window.dataLayer.push({ event: 'ml-form-success' });
+
+              // Let pages (e.g. /quiz) react without racing this script overwrite
+              window.dispatchEvent(new CustomEvent('ml-form-success'));
             }
             window.ml_webform_success_41803658 = ml_webform_success_41803658;
           `}
