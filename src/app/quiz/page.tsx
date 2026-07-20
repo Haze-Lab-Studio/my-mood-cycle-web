@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { WaveLoader } from "@/components/WaveLoader";
 
 /** Same public MailerLite form used by the waitlist (no API key). */
 const MAILERLITE_FORM_ACTION =
@@ -48,7 +49,7 @@ type ResultContent = {
 
 const QUESTIONS: Question[] = [
   {
-    text: "When you're feeling off, what's the first thing that changes?",
+    text: "When you're feeling off, \nwhat's the first thing that changes?",
     options: [
       {
         label: "My energy disappears — I feel heavy and unmotivated",
@@ -98,7 +99,7 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    text: "What feels most frustrating when things shift?",
+    text: "What feels most frustrating \nwhen things shift?",
     options: [
       {
         label: "Feeling inconsistent — like I can't rely on myself",
@@ -121,7 +122,7 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    text: "When you feel this way, what do you usually tell yourself?",
+    text: "When you feel this way, \nwhat do you usually tell yourself?",
     options: [
       {
         label: "Something must be wrong with me",
@@ -146,7 +147,7 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    text: "What would feel most useful to you right now?",
+    text: "What would feel most useful \nto you right now?",
     options: [
       {
         label: "Understanding why my energy levels are so unpredictable",
@@ -169,9 +170,9 @@ const QUESTIONS: Question[] = [
 ];
 
 const RESULT_NAMES: Record<ResultKey, string> = {
-  pattern: "You're not all over the place. You're in motion.",
-  energy: "You're not lazy. You're luteal.",
-  sensitivity: "You're not too sensitive. You're just in the wrong week.",
+  pattern: "You're not all over the place. \nYou're in motion.",
+  energy: "You're not lazy. \nYou're luteal.",
+  sensitivity: "You're not too sensitive. \nYou're just in the wrong week.",
 };
 
 const RESULTS: Record<ResultKey, ResultContent> = {
@@ -188,7 +189,7 @@ const RESULTS: Record<ResultKey, ResultContent> = {
       "The shifts you've been experiencing likely follow a predictable pattern — the same emotional signatures appearing at roughly the same points in your cycle, every month. You just haven't had a framework to see it yet.",
     ctaLine1:
       "Your free Emotional Cycle Guide is on its way to your inbox. It'll help you start seeing the pattern.",
-    ctaLine2: "And when you're ready to track it in real time — My Mood Cycle is almost here.",
+    ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
   energy: {
     name: RESULT_NAMES.energy,
@@ -203,7 +204,7 @@ const RESULTS: Record<ResultKey, ResultContent> = {
     insight:
       "The energy crashes you're experiencing likely have a timing pattern — appearing at roughly the same point in your cycle every month. Once you can identify when they're coming, you can stop fighting them and start planning around them.",
     ctaLine1: "Your free Emotional Cycle Guide is on its way to your inbox.",
-    ctaLine2: "And when you're ready to track it in real time — My Mood Cycle is almost here.",
+    ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
   sensitivity: {
     name: RESULT_NAMES.sensitivity,
@@ -218,7 +219,7 @@ const RESULTS: Record<ResultKey, ResultContent> = {
     insight:
       "The weeks where you feel more emotionally reactive likely follow a predictable pattern. Once you can see it coming, you can hold it differently. Not as a character flaw. As information.",
     ctaLine1: "Your free Emotional Cycle Guide is on its way to your inbox.",
-    ctaLine2: "And when you're ready to track it in real time — My Mood Cycle is almost here.",
+    ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
 };
 
@@ -357,7 +358,11 @@ export default function QuizPage() {
         </div>
       ) : null}
 
-      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-6 py-16 md:py-24">
+      <main
+        className={`mx-auto flex w-full flex-1 flex-col justify-center px-6 py-16 md:py-24 ${
+          currentState === "result" ? "max-w-3xl" : "max-w-2xl"
+        }`}
+      >
         {currentState === "intro" ? (
           <div
             key={currentState}
@@ -387,7 +392,7 @@ export default function QuizPage() {
             <p className="sr-only" aria-live="polite" aria-atomic="true">
               Question {currentQuestion + 1} of {QUESTIONS.length}: {question.text}
             </p>
-            <h2 className="mx-auto max-w-xl text-center font-serif text-2xl text-[#3D2930] md:text-3xl">
+            <h2 className="mx-auto max-w-xl text-center font-serif text-2xl text-[#3D2930] md:text-3xl whitespace-pre-line">
               {question.text}
             </h2>
             <div className="mt-10 flex w-full max-w-md flex-col gap-3">
@@ -428,7 +433,7 @@ export default function QuizPage() {
             <p className="font-sans text-sm uppercase tracking-widest text-[#8C737B]">
               Your result is…
             </p>
-            <h2 className="mt-4 font-serif text-2xl text-[#3D2930] md:text-3xl">
+            <h2 className="mt-4 font-serif text-2xl text-[#3D2930] md:text-3xl whitespace-pre-line">
               {RESULT_NAMES[resultKey]}
             </h2>
 
@@ -486,7 +491,11 @@ export default function QuizPage() {
                             disabled={isSubmitting}
                             className="primary w-full cursor-pointer rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:cursor-not-allowed disabled:opacity-70"
                           >
-                            {isSubmitting ? "Sending…" : "Unlock my result"}
+                            {isSubmitting ? (
+                              <WaveLoader size="sm" className="mx-auto text-white" />
+                            ) : (
+                              "Unlock my result"
+                            )}
                           </button>
                           <button
                             disabled
@@ -494,7 +503,7 @@ export default function QuizPage() {
                             className="loading"
                             style={{ display: "none" }}
                           >
-                            <div className="ml-form-embedSubmitLoad" />
+                            <WaveLoader size="sm" className="mx-auto text-white" />
                             <span className="sr-only">Loading...</span>
                           </button>
                         </div>
@@ -502,8 +511,9 @@ export default function QuizPage() {
                       </form>
                     </div>
                     <div className="ml-form-successBody row-success" style={{ display: "none" }}>
-                      <div className="ml-form-successContent">
-                        <p>Unlocking your result…</p>
+                      <div className="ml-form-successContent flex flex-col items-center py-4">
+                        <WaveLoader size="md" label="Unlocking your result" />
+                        <p className="mt-3">Unlocking your result…</p>
                       </div>
                     </div>
                   </div>
@@ -519,7 +529,9 @@ export default function QuizPage() {
 
         {currentState === "result" && result ? (
           <div key={currentState} className="animate-in fade-in w-full duration-200">
-            <h1 className="font-serif text-3xl text-[#3D2930] md:text-4xl">{result.name}</h1>
+            <h1 className="font-serif text-3xl text-[#3D2930] md:text-4xl whitespace-pre-line">
+              {result.name}
+            </h1>
             <p className="mt-4 font-serif text-xl italic text-[#3D2930]">{result.subheading}</p>
             {result.paragraphs.map((paragraph, index) => (
               <p key={index} className="mt-4 font-sans leading-relaxed text-[#3D2930]">
