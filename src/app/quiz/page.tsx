@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
-const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY ?? "";
-
-const MAILERLITE_GROUP_PATTERN = "PLACEHOLDER_GROUP_ID_PATTERN";
-
-const MAILERLITE_GROUP_ENERGY = "PLACEHOLDER_GROUP_ID_ENERGY";
-
-const MAILERLITE_GROUP_SENSITIVITY = "PLACEHOLDER_GROUP_ID_SENSITIVITY";
+/** Same public MailerLite form used by the waitlist (no API key). */
+const MAILERLITE_FORM_ACTION =
+  "https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/subscribe";
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "pattern" | "energy" | "sensitivity";
 type ScoreKey = ResultKey;
+
+type MailerLiteWindow = Window & {
+  ml_webform_success_41803658?: () => void;
+};
 
 type Scores = {
   pattern: number;
@@ -220,12 +220,6 @@ const RESULTS: Record<ResultKey, ResultContent> = {
   },
 };
 
-const GROUP_BY_RESULT: Record<ResultKey, string> = {
-  pattern: MAILERLITE_GROUP_PATTERN,
-  energy: MAILERLITE_GROUP_ENERGY,
-  sensitivity: MAILERLITE_GROUP_SENSITIVITY,
-};
-
 function tallyResult(scores: Scores): ResultKey {
   const max = Math.max(scores.pattern, scores.energy, scores.sensitivity);
   if (scores.pattern === max) return "pattern";
@@ -247,6 +241,21 @@ export default function QuizPage() {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+
+  useEffect(() => {
+    const mlWindow = window as MailerLiteWindow;
+    const previous = mlWindow.ml_webform_success_41803658;
+
+    mlWindow.ml_webform_success_41803658 = () => {
+      previous?.();
+      setIsSubmitting(false);
+      setCurrentState("result");
+    };
+
+    return () => {
+      mlWindow.ml_webform_success_41803658 = previous;
+    };
+  }, []);
 
   function handleStart() {
     setCurrentQuestion(0);
@@ -283,44 +292,16 @@ export default function QuizPage() {
     }, 300);
   }
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     setEmailError("");
 
     if (!isValidEmail(email)) {
+      event.preventDefault();
       setEmailError("Please enter a valid email address.");
       return;
     }
 
-    if (!resultKey) {
-      setEmailError("Something went wrong. Please try again.");
-      return;
-    }
-
     setIsSubmitting(true);
-
-    try {
-      const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${MAILERLITE_API_KEY}`,
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          groups: [GROUP_BY_RESULT[resultKey]],
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("MailerLite request failed");
-      }
-
-      setCurrentState("result");
-    } catch {
-      setIsSubmitting(false);
-      setEmailError("Something went wrong. Please try again.");
-    }
   }
 
   const question = QUESTIONS[currentQuestion];
@@ -406,11 +387,18 @@ export default function QuizPage() {
               Enter your email to unlock your full result and get your free Emotional Cycle Guide.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-8 w-full max-w-md">
+            <form
+              className="ml-block-form mt-8 w-full max-w-md"
+              action={MAILERLITE_FORM_ACTION}
+              method="post"
+              onSubmit={handleSubmit}
+            >
               <input
                 type="email"
-                name="email"
+                name="fields[email]"
                 autoComplete="email"
+                aria-label="email"
+                aria-required="true"
                 value={email}
                 onChange={(event) => {
                   setEmail(event.target.value);
@@ -422,6 +410,8 @@ export default function QuizPage() {
               {emailError ? (
                 <p className="mt-2 text-left text-sm text-red-500">{emailError}</p>
               ) : null}
+              <input type="hidden" name="ml-submit" value="1" />
+              <input type="hidden" name="anticsrf" value="true" />
               <button
                 type="submit"
                 disabled={isSubmitting}
