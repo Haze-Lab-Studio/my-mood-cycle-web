@@ -319,7 +319,7 @@ export default function QuizPage() {
         <div className="h-1 w-full bg-[#DB7094]/15">
           <div
             className="h-full bg-[#DB7094] transition-[width] duration-300 ease-out"
-            style={{ width: `${(currentQuestion / 5) * 100}%` }}
+            style={{ width: `${(currentQuestion / QUESTIONS.length) * 100}%` }}
           />
         </div>
       ) : null}
