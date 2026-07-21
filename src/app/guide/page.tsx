@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "Thanks for joining the My Mood Cycle waitlist. Download The Emotional Cycle Guide and start understanding how your cycle can influence mood, energy, and emotions.",
   robots: {
     index: false,
-    follow: true,
+    follow: false,
   },
   alternates: {
     canonical: "/guide",

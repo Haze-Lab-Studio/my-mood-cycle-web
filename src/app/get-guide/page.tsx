@@ -10,7 +10,7 @@ import { SubscribeForm } from "@/components/SubscribeForm";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Get the Free Emotional Cycle Guide | My Mood Cycle",
+    absolute: "Finally Understand Why You Feel This Way | My Mood Cycle",
   },
   description:
     "Finally understand why you feel the way you feel. A free guide to the emotional patterns of your cycle — in plain language.",
