@@ -218,22 +218,24 @@ export default function HomePage() {
       </section>
 
       <section className="bg-[#F7EEF2] px-6 pt-24 pb-[72px] md:px-10 md:pt-32 md:pb-[72px]">
-        <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
-          <h2 className="max-w-2xl text-3xl text-brand-purple md:text-5xl">
-            A daily check-in that actually means something.
-          </h2>
-          <p className="mt-4 max-w-xl text-lg text-brand-purple-light">
-            Open the app. See your phase. Get emotional context — in one calm screen. Over time,
-            patterns become clearer.
-          </p>
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-12 md:flex-row md:gap-16 lg:gap-20">
+          <div className="w-full max-w-md text-center md:flex-1 md:text-left">
+            <h2 className="text-3xl text-brand-purple md:text-5xl">
+              A daily check-in that actually means something.
+            </h2>
+            <p className="mt-4 text-lg text-brand-purple-light">
+              Open the app. See your phase. Get emotional context — in one calm screen. Over time,
+              patterns become clearer.
+            </p>
+          </div>
 
-          <div className="relative mt-14">
+          <div className="relative flex shrink-0">
             <video
               autoPlay
               muted
               loop
               playsInline
-              className="mx-auto block aspect-[9/16] h-auto w-full max-w-[280px] rounded-[44px] object-cover opacity-100"
+              className="block aspect-[9/16] h-auto w-full max-w-[280px] rounded-[44px] object-cover opacity-100"
             >
               <source src="/my-mood-cycle-video-demo.webm" type="video/webm" />
               <source src="/my-mood-cycle-video-demo.mp4" type="video/mp4" />
