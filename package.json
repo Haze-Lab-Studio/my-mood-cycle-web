@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:clean": "npm run clean && next dev",
-    "clean": "rm -rf .next node_modules/.cache",
+    "clean": "rm -rf .next node_modules/.cache out",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

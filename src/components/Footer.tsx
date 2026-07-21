@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
           <FooterLogo />
           <p className="font-display text-lg italic text-cream/85">
-            Understanding your cycle, one day at a time.
+            You&apos;re not broken. You just need to wait a few days.
           </p>
           <nav className="flex items-center gap-6 text-sm">
             <Link href="/privacy" className="transition hover:text-brand-rose-light">
