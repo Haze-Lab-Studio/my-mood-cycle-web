@@ -229,7 +229,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="relative flex shrink-0 justify-center">
+          <div className="relative flex shrink-0">
             <video
               autoPlay
               muted
