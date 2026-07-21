@@ -219,7 +219,7 @@ export default function HomePage() {
 
       <section className="bg-[#F7EEF2] px-6 pt-24 pb-[72px] md:px-10 md:pt-32 md:pb-[72px]">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-12 md:flex-row md:gap-16 lg:gap-20">
-          <div className="w-full max-w-md flex-1 text-center md:text-left">
+          <div className="w-full max-w-md text-center md:flex-1 md:text-left">
             <h2 className="text-3xl text-brand-purple md:text-5xl">
               A daily check-in that actually means something.
             </h2>
