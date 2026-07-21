@@ -15,7 +15,7 @@ const defaultHelperTextClassName =
 
 export function SubscribeForm({
   centered = false,
-  submitLabel = "Get the free guide",
+  submitLabel = "Join the waitlist",
   emailPlaceholder = "Enter your email",
   helperText,
   helperTextClassName = defaultHelperTextClassName,
@@ -71,13 +71,12 @@ export function SubscribeForm({
 
             <div className="ml-form-successBody row-success" style={{ display: "none" }}>
               <div className="ml-form-successContent">
-                <h4>🌸 Almost there!</h4>
+                <h4>Almost there!</h4>
                 <p>
                   We&apos;ve sent a confirmation email to your inbox.
                   <br />
                   <br />
-                  Please confirm your subscription to unlock your free Emotional Cycle Guide and
-                  join the My Mood Cycle waitlist.
+                  Please confirm your subscription to join the My Mood Cycle waitlist.
                   <br />
                   <br />
                   Don&apos;t see it? Check your spam or promotions folder.
