@@ -240,6 +240,7 @@ export default function QuizPage() {
   const [awarenessHigh, setAwarenessHigh] = useState(true);
   const [resultKey, setResultKey] = useState<ResultKey | null>(null);
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -300,10 +301,14 @@ export default function QuizPage() {
       const response = await fetch("/api/quiz-subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), resultKey }),
+        body: JSON.stringify({ email: email.trim(), resultKey, website }),
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          setEmailError("Too many attempts. Please wait a few minutes and try again.");
+          return;
+        }
         throw new Error(`Subscribe failed with status ${response.status}`);
       }
 
@@ -424,7 +429,18 @@ export default function QuizPage() {
             </h2>
 
             <div className="mt-8 w-full max-w-md">
-              <form onSubmit={handleSubmit} className="w-full" noValidate>
+              <form onSubmit={handleSubmit} className="relative w-full" noValidate>
+                {/* Honeypot — leave empty; bots that autofill are rejected server-side. */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={website}
+                  onChange={(event) => setWebsite(event.target.value)}
+                  className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
+                />
                 <input
                   type="email"
                   name="email"
