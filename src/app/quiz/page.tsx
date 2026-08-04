@@ -1,17 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
-
-/** Same public MailerLite form used by the waitlist (no API key). */
-const MAILERLITE_FORM_ACTION =
-  "https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/subscribe";
-
-/** MailerLite embeds don't surface errors to the page; treat silence as failure. */
-const SUBMIT_TIMEOUT_MS = 15_000;
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "pattern" | "energy" | "sensitivity";
@@ -250,30 +243,6 @@ export default function QuizPage() {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const submitTimeoutRef = useRef<number | null>(null);
-
-  function clearSubmitTimeout() {
-    if (submitTimeoutRef.current !== null) {
-      window.clearTimeout(submitTimeoutRef.current);
-      submitTimeoutRef.current = null;
-    }
-  }
-
-  useEffect(() => {
-    function onMailerLiteSuccess() {
-      clearSubmitTimeout();
-      setIsSubmitting(false);
-      setCurrentState("result");
-    }
-
-    // Prefer the layout CustomEvent — wrapping window.ml_webform_success_* races
-    // the afterInteractive script in layout.tsx and leaves the gate stuck.
-    window.addEventListener("ml-form-success", onMailerLiteSuccess);
-    return () => {
-      clearSubmitTimeout();
-      window.removeEventListener("ml-form-success", onMailerLiteSuccess);
-    };
-  }, []);
 
   function handleStart() {
     setCurrentQuestion(0);
@@ -311,23 +280,40 @@ export default function QuizPage() {
     setSelectedOption(null);
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setEmailError("");
 
     if (!isValidEmail(email)) {
-      event.preventDefault();
       setEmailError("Please enter a valid email address.");
       return;
     }
 
-    setIsSubmitting(true);
-    clearSubmitTimeout();
-    submitTimeoutRef.current = window.setTimeout(() => {
-      submitTimeoutRef.current = null;
-      console.error("Quiz MailerLite subscribe timed out or failed", { resultKey });
-      setIsSubmitting(false);
+    if (!resultKey) {
       setEmailError("Something went wrong. Please try again.");
-    }, SUBMIT_TIMEOUT_MS);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/quiz-subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), resultKey }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Subscribe failed with status ${response.status}`);
+      }
+
+      setCurrentState("result");
+    } catch (error) {
+      console.error("Quiz subscribe failed", { resultKey, error });
+      setEmailError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const question = QUESTIONS[currentQuestion];
@@ -437,88 +423,37 @@ export default function QuizPage() {
               {RESULT_NAMES[resultKey]}
             </h2>
 
-            {/*
-              MailerLite webforms.min.js only binds forms inside .ml-subscribe-form
-              (see selector `.ml-subscribe-form form`). Match SubscribeForm's embed
-              markup so submit is intercepted; target="_blank" keeps the quiz page
-              if interception ever fails.
-              Spacing lives on this wrapper — MailerLite CSS resets margin on #mlb2-*.
-            */}
             <div className="mt-8 w-full max-w-md">
-              <div
-                id="mlb2-41803658"
-                className="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-41803658 w-full"
-              >
-                <div className="ml-form-align-center">
-                  <div className="ml-form-embedWrapper embedForm">
-                    <div className="ml-form-embedBody ml-form-embedBodyDefault row-form">
-                      <form
-                        className="ml-block-form"
-                        action={MAILERLITE_FORM_ACTION}
-                        data-code=""
-                        method="post"
-                        target="_blank"
-                        onSubmit={handleSubmit}
-                      >
-                        <div className="ml-form-formContent">
-                          <div className="ml-form-fieldRow ml-last-item">
-                            <div className="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                              <input
-                                type="email"
-                                name="fields[email]"
-                                autoComplete="email"
-                                aria-label="email"
-                                aria-required="true"
-                                data-inputmask=""
-                                value={email}
-                                onChange={(event) => {
-                                  setEmail(event.target.value);
-                                  if (emailError) setEmailError("");
-                                }}
-                                placeholder="your@email.com"
-                                className="form-control w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        {emailError ? (
-                          <p className="mt-2 text-left text-sm text-red-500">{emailError}</p>
-                        ) : null}
-                        <input type="hidden" name="ml-submit" value="1" />
-                        <div className="ml-form-embedSubmit">
-                          <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="primary w-full cursor-pointer rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:cursor-not-allowed disabled:opacity-70"
-                          >
-                            {isSubmitting ? (
-                              <WaveLoader size="sm" className="mx-auto text-white" />
-                            ) : (
-                              "Unlock my result"
-                            )}
-                          </button>
-                          <button
-                            disabled
-                            type="button"
-                            className="loading"
-                            style={{ display: "none" }}
-                          >
-                            <WaveLoader size="sm" className="mx-auto text-white" />
-                            <span className="sr-only">Loading...</span>
-                          </button>
-                        </div>
-                        <input type="hidden" name="anticsrf" value="true" />
-                      </form>
-                    </div>
-                    <div className="ml-form-successBody row-success" style={{ display: "none" }}>
-                      <div className="ml-form-successContent flex flex-col items-center py-4">
-                        <WaveLoader size="md" label="Unlocking your result" />
-                        <p className="mt-3">Unlocking your result…</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <form onSubmit={handleSubmit} className="w-full" noValidate>
+                <input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  aria-label="email"
+                  aria-required="true"
+                  value={email}
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                    if (emailError) setEmailError("");
+                  }}
+                  placeholder="your@email.com"
+                  className="w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
+                />
+                {emailError ? (
+                  <p className="mt-2 text-left text-sm text-red-500">{emailError}</p>
+                ) : null}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="mt-4 w-full cursor-pointer rounded-full bg-[#DB7094] py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {isSubmitting ? (
+                    <WaveLoader size="sm" className="mx-auto text-white" />
+                  ) : (
+                    "Unlock my result"
+                  )}
+                </button>
+              </form>
             </div>
 
             <p className="mt-4 font-sans text-xs text-[#8C737B]">
