@@ -38,13 +38,15 @@ function getClientIp(request: Request): string {
   return "unknown";
 }
 
+const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+
 /** Vercel sets x-vercel-ip-country to an ISO 3166-1 alpha-2 code (e.g. "BR"). */
 function getCountryName(request: Request): string | undefined {
   const code = request.headers.get("x-vercel-ip-country")?.trim().toUpperCase();
   if (!code || code === "XX" || code.length !== 2) return undefined;
 
   try {
-    return new Intl.DisplayNames(["en"], { type: "region" }).of(code) ?? code;
+    return regionNames.of(code) ?? code;
   } catch {
     return code;
   }
