@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,7 +30,14 @@ export function Nav({ showCta = true }: Props) {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-10">
         <Link href="/" aria-label="My Mood Cycle home" className="flex items-center">
-          <img src="/logo-horizontal.svg" alt="My Mood Cycle" className="h-8 w-auto md:h-9" />
+          <Image
+            src="/logo-horizontal.svg"
+            alt="My Mood Cycle"
+            width={146}
+            height={38}
+            className="h-8 w-auto md:h-9"
+            priority
+          />
         </Link>
         {showCta ? (
           <Link
