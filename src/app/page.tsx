@@ -69,16 +69,14 @@ const phases = [
     phase: "Ovulatory",
     emoji: "☀️",
     tagline: "Connection may feel easier",
-    description:
-      "Confidence and social energy can peak. Conversations might feel more natural.",
+    description: "Confidence and social energy can peak. Conversations might feel more natural.",
     color: "#E8B86D",
   },
   {
     phase: "Luteal",
     emoji: "🍂",
     tagline: "Your feelings still count",
-    description:
-      "Sensitivity can sharpen. Be gentle with yourself — honesty often deepens here.",
+    description: "Sensitivity can sharpen. Be gentle with yourself — honesty often deepens here.",
     color: "#C4956A",
   },
 ];
@@ -247,8 +245,7 @@ export default function HomePage() {
       <section id="waitlist" className="px-6 py-24 text-center md:px-10 md:py-32">
         <div className="mx-auto max-w-none">
           <h2 className="text-3xl text-brand-purple md:text-5xl">
-            Be the first to know when we{" "}
-            <span className="text-brand-rose">launch</span>
+            Be the first to know when we <span className="text-brand-rose">launch</span>
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-brand-purple-light">
             Join the <BrandName /> waitlist for early access.
