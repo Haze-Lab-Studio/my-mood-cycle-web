@@ -23,13 +23,19 @@ function isResultKey(value: unknown): value is ResultKey {
 }
 
 function getClientIp(request: Request): string {
+  // Prefer x-real-ip (set by the edge from the socket; not client-spoofable on Vercel).
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+
+  // Proxies append the client IP; use the last segment so a forged leading value is ignored.
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
+    const parts = forwarded.split(",");
+    const last = parts[parts.length - 1]?.trim();
+    if (last) return last;
   }
 
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
+  return "unknown";
 }
 
 function pruneExpiredBuckets(now: number) {
