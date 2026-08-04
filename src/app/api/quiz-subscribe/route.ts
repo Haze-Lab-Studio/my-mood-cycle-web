@@ -38,6 +38,18 @@ function getClientIp(request: Request): string {
   return "unknown";
 }
 
+/** Vercel sets x-vercel-ip-country to an ISO 3166-1 alpha-2 code (e.g. "BR"). */
+function getCountryName(request: Request): string | undefined {
+  const code = request.headers.get("x-vercel-ip-country")?.trim().toUpperCase();
+  if (!code || code === "XX" || code.length !== 2) return undefined;
+
+  try {
+    return new Intl.DisplayNames(["en"], { type: "region" }).of(code) ?? code;
+  } catch {
+    return code;
+  }
+}
+
 function pruneExpiredBuckets(now: number) {
   if (rateLimitByIp.size < RATE_LIMIT_PRUNE_AT) return;
 
@@ -122,7 +134,8 @@ export async function POST(request: Request) {
   }
 
   // Count only requests that are about to hit MailerLite, so typos don't burn the budget.
-  const retryAfterMs = checkRateLimit(getClientIp(request));
+  const clientIp = getClientIp(request);
+  const retryAfterMs = checkRateLimit(clientIp);
   if (retryAfterMs !== null) {
     const retryAfterSeconds = Math.ceil(retryAfterMs / 1000) || 1;
     return NextResponse.json(
@@ -132,6 +145,26 @@ export async function POST(request: Request) {
         headers: { "Retry-After": String(retryAfterSeconds) },
       },
     );
+  }
+
+  const country = getCountryName(request);
+
+  const subscriberPayload: {
+    email: string;
+    groups: string[];
+    ip_address?: string;
+    fields?: { country: string };
+  } = {
+    email,
+    groups: [groupId],
+  };
+
+  // Hosted forms geolocate automatically; Connect API needs these explicitly.
+  if (clientIp !== "unknown") {
+    subscriberPayload.ip_address = clientIp;
+  }
+  if (country) {
+    subscriberPayload.fields = { country };
   }
 
   let upstream: Response;
@@ -144,10 +177,7 @@ export async function POST(request: Request) {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({
-        email,
-        groups: [groupId],
-      }),
+      body: JSON.stringify(subscriberPayload),
       signal: AbortSignal.timeout(10_000),
     });
   } catch (error) {
