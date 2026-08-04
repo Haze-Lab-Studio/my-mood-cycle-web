@@ -106,8 +106,8 @@ export default function GetGuidePage() {
               plans. Where you wonder what happened to the person you were seven days ago.
             </p>
             <p>
-              You&apos;ve probably told yourself it&apos;s stress. Or that you&apos;re just tired. Or
-              that something is wrong with you.
+              You&apos;ve probably told yourself it&apos;s stress. Or that you&apos;re just tired.
+              Or that something is wrong with you.
             </p>
             <p className="font-medium text-brand-purple">Nothing is wrong with you.</p>
           </div>
@@ -143,7 +143,10 @@ export default function GetGuidePage() {
               Eventually I figured it out. And once I did, I wanted to make it easier for everyone
               else to get there faster.
             </p>
-            <p>This guide is the thing I wish I&apos;d had years ago. It&apos;s free. It always will be.</p>
+            <p>
+              This guide is the thing I wish I&apos;d had years ago. It&apos;s free. It always will
+              be.
+            </p>
           </div>
           <p className="mt-8 font-medium text-brand-purple">— Gabi, founder of My Mood Cycle</p>
         </div>
