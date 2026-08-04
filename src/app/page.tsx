@@ -128,6 +128,7 @@ export default function HomePage() {
             </p>
             <div className="mt-9">
               <SubscribeForm
+                listKey="waitlist"
                 centered
                 submitLabel="Join the waitlist"
                 emailPlaceholder="Enter your email"
@@ -252,6 +253,7 @@ export default function HomePage() {
           </p>
           <div className="mt-10">
             <SubscribeForm
+              listKey="waitlist"
               centered
               submitLabel="Join the waitlist"
               helperText={

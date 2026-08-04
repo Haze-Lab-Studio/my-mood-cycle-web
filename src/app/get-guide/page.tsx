@@ -160,6 +160,7 @@ export default function GetGuidePage() {
           </p>
           <div className="mt-10">
             <SubscribeForm
+              listKey="guide"
               centered
               submitLabel="Send me the guide"
               emailPlaceholder="your@email.com"

@@ -295,10 +295,10 @@ export default function QuizPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/quiz-subscribe", {
+      const response = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), resultKey, website }),
+        body: JSON.stringify({ email: email.trim(), listKey: resultKey, website }),
       });
 
       if (!response.ok) {
