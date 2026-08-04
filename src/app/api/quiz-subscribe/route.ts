@@ -142,6 +142,7 @@ export async function POST(request: Request) {
         email,
         groups: [groupId],
       }),
+      signal: AbortSignal.timeout(10_000),
     });
   } catch (error) {
     console.error("quiz-subscribe: MailerLite request failed", error);
