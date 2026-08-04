@@ -12,7 +12,12 @@ const GROUP_ENV_BY_LIST: Record<ListKey, string> = {
   sensitivity: "MAILERLITE_GROUP_SENSITIVITY",
 };
 
-/** Soft per-isolate throttle — enough to blunt naive scripts on a single instance. */
+/**
+ * Soft per-isolate throttle — enough to blunt naive scripts on a single instance.
+ * Shared across all list keys (waitlist, guide, quiz results). Not a hard global
+ * limit on Vercel: autoscaled isolates each keep their own Map. Revisit with
+ * KV/Upstash if abuse across waitlist/guide becomes a problem.
+ */
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_PRUNE_AT = 500;
