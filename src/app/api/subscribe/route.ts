@@ -26,13 +26,10 @@ export async function POST(request: Request) {
   const {
     email: rawEmail,
     listKey,
-    // Back-compat for the quiz client that still sends resultKey.
-    resultKey,
     website,
   } = body as {
     email?: unknown;
     listKey?: unknown;
-    resultKey?: unknown;
     website?: unknown;
   };
 
@@ -46,8 +43,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "A valid email is required." }, { status: 400 });
   }
 
-  const key = listKey ?? resultKey;
-  if (!isListKey(key)) {
+  if (!isListKey(listKey)) {
     return NextResponse.json(
       {
         error: 'listKey must be "waitlist", "guide", "pattern", "energy", or "sensitivity".',
@@ -57,7 +53,7 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.MAILERLITE_API_KEY;
-  const { groupId, envName } = resolveGroupId(key);
+  const { groupId, envName } = resolveGroupId(listKey);
 
   if (!apiKey) {
     console.error("subscribe: MAILERLITE_API_KEY is not configured");
