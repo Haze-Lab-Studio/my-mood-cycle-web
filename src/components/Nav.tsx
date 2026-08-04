@@ -33,8 +33,8 @@ export function Nav({ showCta = true }: Props) {
           <Image
             src="/logo-horizontal.svg"
             alt="My Mood Cycle"
-            width={146}
-            height={38}
+            width={364}
+            height={95}
             className="h-8 w-auto md:h-9"
             priority
           />
