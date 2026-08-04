@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
-import { isValidEmail } from "@/lib/email";
+import { EMAIL_MAX_LENGTH, isValidEmail } from "@/lib/email";
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "pattern" | "energy" | "sensitivity";
@@ -444,6 +444,7 @@ export default function QuizPage() {
                   autoComplete="email"
                   aria-label="email"
                   aria-required="true"
+                  maxLength={EMAIL_MAX_LENGTH}
                   value={email}
                   onChange={(event) => {
                     setEmail(event.target.value);
