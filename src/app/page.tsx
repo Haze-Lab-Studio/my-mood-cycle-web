@@ -268,7 +268,7 @@ export default function HomePage() {
                   </Link>
                 </>
               }
-              helperTextClassName="mx-auto mt-4 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
+              helperTextClassName="mx-auto mt-4 text-[0.9rem] leading-relaxed text-brand-purple-light"
             />
           </div>
         </div>

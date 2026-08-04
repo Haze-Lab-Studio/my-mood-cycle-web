@@ -19,7 +19,7 @@ type Props = {
 };
 
 const defaultHelperTextClassName =
-  "mx-auto mt-6 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light";
+  "mx-auto mt-6 text-[0.9rem] leading-relaxed text-brand-purple-light";
 
 const DEFAULT_SUCCESS: Record<ListKey, { title: string; body: ReactNode }> = {
   waitlist: {
@@ -117,6 +117,8 @@ export function SubscribeForm({
     }
   }
 
+  // Cap form + success card width here so parents can size section copy freely
+  // (including max-w-none on the home waitlist CTA).
   return (
     <div className={`w-full max-w-md ${centered ? "mx-auto flex flex-col items-center" : ""}`}>
       {isSuccess ? (
