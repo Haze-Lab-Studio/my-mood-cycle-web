@@ -160,11 +160,12 @@ export default function GetGuidePage() {
           </p>
           <div className="mt-10">
             <SubscribeForm
+              listKey="guide"
               centered
               submitLabel="Send me the guide"
               emailPlaceholder="your@email.com"
               helperText="No spam. Unsubscribe any time. Your data stays private."
-              helperTextClassName="mx-auto mt-4 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light"
+              helperTextClassName="mx-auto mt-4 text-[0.9rem] leading-relaxed text-brand-purple-light"
             />
           </div>
         </div>

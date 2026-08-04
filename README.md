@@ -17,16 +17,18 @@ cd my-mood-cycle-web
 npm install
 ```
 
-Copy `.env.example` to `.env.local` (or set the same keys in Vercel) for quiz email capture:
+Copy `.env.example` to `.env.local` (or set the same keys in Vercel) for email capture:
 
 | Variable | Purpose |
 | --- | --- |
 | `MAILERLITE_API_KEY` | Private MailerLite Connect API token (server-only) |
+| `MAILERLITE_GROUP_WAITLIST` | Group ID for the homepage waitlist |
+| `MAILERLITE_GROUP_GUIDE` | Group ID for the Emotional Cycle Guide signup |
 | `MAILERLITE_GROUP_PATTERN` | Group ID for the pattern quiz result |
 | `MAILERLITE_GROUP_ENERGY` | Group ID for the energy quiz result |
 | `MAILERLITE_GROUP_SENSITIVITY` | Group ID for the sensitivity quiz result |
 
-Do not prefix these with `NEXT_PUBLIC_`. They are read only by `POST /api/quiz-subscribe`.
+Do not prefix these with `NEXT_PUBLIC_`. They are read only by `POST /api/subscribe`.
 
 ## Development
 

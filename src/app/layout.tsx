@@ -3,7 +3,6 @@ import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import Script from "next/script";
 
 import "./globals.css";
-import "./mailerlite-form.css";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -101,32 +100,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-WRDT59TR');`}
         </Script>
         {children}
-        <Script id="mailerlite-success-callback" strategy="afterInteractive">
-          {`
-            function ml_webform_success_41803658() {
-              var $ = window.ml_jQuery || window.jQuery;
-              if ($) {
-                $('.ml-subscribe-form-41803658 .row-success').show();
-                $('.ml-subscribe-form-41803658 .row-form').hide();
-              }
-
-              // Fire GTM conversion event
-              window.dataLayer = window.dataLayer || [];
-              window.dataLayer.push({ event: 'ml-form-success' });
-
-              // Let pages (e.g. /quiz) react without racing this script overwrite
-              window.dispatchEvent(new CustomEvent('ml-form-success'));
-            }
-            window.ml_webform_success_41803658 = ml_webform_success_41803658;
-          `}
-        </Script>
-        <Script
-          src="https://groot.mailerlite.com/js/w/webforms.min.js?vb397d78ebaa8a0f631d35384c46d781b"
-          strategy="afterInteractive"
-        />
-        <Script id="mailerlite-track" strategy="afterInteractive">
-          {`fetch("https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/takel");`}
-        </Script>
       </body>
     </html>
   );

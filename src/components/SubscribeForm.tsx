@@ -1,92 +1,176 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useState, type FormEvent, type ReactNode } from "react";
 
 import { WaveLoader } from "@/components/WaveLoader";
+import { EMAIL_MAX_LENGTH, isValidEmail } from "@/lib/email";
+
+type ListKey = "waitlist" | "guide";
 
 type Props = {
+  listKey: ListKey;
   centered?: boolean;
   submitLabel?: string;
   emailPlaceholder?: string;
   helperText?: ReactNode;
   helperTextClassName?: string;
+  successTitle?: string;
+  successBody?: ReactNode;
 };
 
 const defaultHelperTextClassName =
-  "mx-auto mt-6 max-w-xl text-[0.9rem] leading-relaxed text-brand-purple-light";
+  "mx-auto mt-6 text-[0.9rem] leading-relaxed text-brand-purple-light";
+
+const DEFAULT_SUCCESS: Record<ListKey, { title: string; body: ReactNode }> = {
+  waitlist: {
+    title: "Almost there!",
+    body: (
+      <>
+        We&apos;ve sent a confirmation email to your inbox.
+        <br />
+        <br />
+        Please confirm your subscription to join the My Mood Cycle waitlist.
+        <br />
+        <br />
+        Don&apos;t see it? Check your spam or promotions folder.
+      </>
+    ),
+  },
+  guide: {
+    title: "Check your inbox!",
+    body: (
+      <>
+        Your Emotional Cycle Guide is on its way.
+        <br />
+        <br />
+        Don&apos;t see it? Check your spam or promotions folder.
+      </>
+    ),
+  },
+};
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
 
 export function SubscribeForm({
+  listKey,
   centered = false,
   submitLabel = "Join the waitlist",
   emailPlaceholder = "Enter your email",
   helperText,
   helperTextClassName = defaultHelperTextClassName,
+  successTitle,
+  successBody,
 }: Props) {
+  const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const resolvedSuccess = {
+    title: successTitle ?? DEFAULT_SUCCESS[listKey].title,
+    body: successBody ?? DEFAULT_SUCCESS[listKey].body,
+  };
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setEmailError("");
+
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          listKey,
+          website,
+        }),
+      });
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          setEmailError("Too many attempts. Please wait a few minutes and try again.");
+          return;
+        }
+        throw new Error(`Subscribe failed with status ${response.status}`);
+      }
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "ml-form-success", listKey });
+      setIsSuccess(true);
+    } catch (error) {
+      console.error("Subscribe failed", { listKey, error });
+      setEmailError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  // Cap form + success card width here so parents can size section copy freely
+  // (including max-w-none on the home waitlist CTA).
   return (
-    <div className={`w-full ${centered ? "mx-auto flex flex-col items-center" : ""}`}>
-      <div
-        id="mlb2-41803658"
-        className="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-41803658"
-      >
-        <div className="ml-form-align-center">
-          <div className="ml-form-embedWrapper embedForm">
-            <div className="ml-form-embedBody ml-form-embedBodyDefault row-form">
-              <form
-                className="ml-block-form"
-                action="https://assets.mailerlite.com/jsonp/2381551/forms/188547461700126484/subscribe"
-                data-code=""
-                method="post"
-                target="_blank"
-              >
-                <div className="ml-form-formContent">
-                  <div className="ml-form-fieldRow ml-last-item">
-                    <div className="ml-field-group ml-field-email ml-validate-email ml-validate-required">
-                      <input
-                        aria-label="email"
-                        aria-required="true"
-                        type="email"
-                        className="form-control"
-                        data-inputmask=""
-                        name="fields[email]"
-                        placeholder={emailPlaceholder}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <input type="hidden" name="ml-submit" value="1" />
-
-                <div className="ml-form-embedSubmit">
-                  <button type="submit" className="primary">
-                    {submitLabel}
-                  </button>
-                  <button disabled type="button" className="loading" style={{ display: "none" }}>
-                    <WaveLoader size="sm" className="mx-auto text-white" label="Loading" />
-                    <span className="sr-only">Loading...</span>
-                  </button>
-                </div>
-
-                <input type="hidden" name="anticsrf" value="true" />
-              </form>
-            </div>
-
-            <div className="ml-form-successBody row-success" style={{ display: "none" }}>
-              <div className="ml-form-successContent">
-                <h4>Almost there!</h4>
-                <p>
-                  We&apos;ve sent a confirmation email to your inbox.
-                  <br />
-                  <br />
-                  Please confirm your subscription to join the My Mood Cycle waitlist.
-                  <br />
-                  <br />
-                  Don&apos;t see it? Check your spam or promotions folder.
-                </p>
-              </div>
-            </div>
-          </div>
+    <div className={`w-full max-w-md ${centered ? "mx-auto flex flex-col items-center" : ""}`}>
+      {isSuccess ? (
+        <div className="w-full rounded-2xl bg-white px-6 py-8 text-center text-brand-purple shadow-sm">
+          <h4 className="font-display text-2xl">{resolvedSuccess.title}</h4>
+          <p className="mt-4 text-[0.95rem] leading-relaxed text-brand-purple-light">
+            {resolvedSuccess.body}
+          </p>
         </div>
-      </div>
-      {helperText ? <p className={helperTextClassName}>{helperText}</p> : null}
+      ) : (
+        <form onSubmit={handleSubmit} className="relative w-full" noValidate>
+          {/* Honeypot — leave empty; bots that autofill are rejected server-side. */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
+            className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
+          />
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            aria-label="email"
+            aria-required="true"
+            maxLength={EMAIL_MAX_LENGTH}
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              if (emailError) setEmailError("");
+            }}
+            placeholder={emailPlaceholder}
+            className="w-full rounded-full border border-brand-rose/40 bg-white px-5 py-3 font-sans text-brand-purple placeholder:text-brand-purple-light focus:border-brand-rose focus:outline-none"
+          />
+          {emailError ? <p className="mt-2 text-left text-sm text-red-500">{emailError}</p> : null}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="mt-4 w-full cursor-pointer rounded-full bg-brand-rose py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-brand-rose disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isSubmitting ? (
+              <WaveLoader size="sm" className="mx-auto text-white" label="Loading" />
+            ) : (
+              submitLabel
+            )}
+          </button>
+        </form>
+      )}
+      {!isSuccess && helperText ? <p className={helperTextClassName}>{helperText}</p> : null}
     </div>
   );
 }
