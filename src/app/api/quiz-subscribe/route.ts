@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isValidEmail } from "@/lib/email";
 
 const RESULT_KEYS = ["pattern", "energy", "sensitivity"] as const;
 type ResultKey = (typeof RESULT_KEYS)[number];
@@ -8,8 +9,6 @@ const GROUP_ENV_BY_RESULT: Record<ResultKey, string> = {
   energy: "MAILERLITE_GROUP_ENERGY",
   sensitivity: "MAILERLITE_GROUP_SENSITIVITY",
 };
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Soft per-isolate throttle — enough to blunt naive scripts on a single instance. */
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
@@ -102,7 +101,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  if (typeof rawEmail !== "string" || !EMAIL_REGEX.test(rawEmail.trim())) {
+  if (typeof rawEmail !== "string" || !isValidEmail(rawEmail)) {
     return NextResponse.json({ error: "A valid email is required." }, { status: 400 });
   }
 

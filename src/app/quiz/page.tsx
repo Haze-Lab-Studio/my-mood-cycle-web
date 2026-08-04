@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
+import { isValidEmail } from "@/lib/email";
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "pattern" | "energy" | "sensitivity";
@@ -228,10 +229,6 @@ const AWARENESS_NOTE = {
   high: "You've felt this before but never had a framework.",
   low: "This might explain something you've been wondering about.",
 } as const;
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-}
 
 export default function QuizPage() {
   const [currentState, setCurrentState] = useState<QuizState>("intro");
