@@ -68,18 +68,6 @@ function checkRateLimit(ip: string): number | null {
 }
 
 export async function POST(request: Request) {
-  const retryAfterMs = checkRateLimit(getClientIp(request));
-  if (retryAfterMs !== null) {
-    const retryAfterSeconds = Math.ceil(retryAfterMs / 1000) || 1;
-    return NextResponse.json(
-      { error: "Too many requests. Please try again later." },
-      {
-        status: 429,
-        headers: { "Retry-After": String(retryAfterSeconds) },
-      },
-    );
-  }
-
   let body: unknown;
 
   try {
@@ -131,6 +119,19 @@ export async function POST(request: Request) {
   if (!groupId) {
     console.error(`quiz-subscribe: ${groupEnvName} is not configured`);
     return NextResponse.json({ error: "Subscription service is unavailable." }, { status: 500 });
+  }
+
+  // Count only requests that are about to hit MailerLite, so typos don't burn the budget.
+  const retryAfterMs = checkRateLimit(getClientIp(request));
+  if (retryAfterMs !== null) {
+    const retryAfterSeconds = Math.ceil(retryAfterMs / 1000) || 1;
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSeconds) },
+      },
+    );
   }
 
   let upstream: Response;
