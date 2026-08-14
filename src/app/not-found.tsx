@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { WaveLoader } from "@/components/WaveLoader";
 
 export default function NotFound() {
   return (
@@ -9,10 +10,11 @@ export default function NotFound() {
       <Nav />
 
       <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-6 py-16 text-center md:py-24">
-        <h1 className="font-serif text-4xl text-[#3D2930] md:text-5xl">
+        <WaveLoader size="hero" className="!mt-0 mb-10" label="My Mood Cycle app icon" />
+        <h1 className="font-serif text-4xl text-brand-purple md:text-5xl">
           This page took a different path.
         </h1>
-        <p className="mx-auto mt-6 max-w-lg font-sans text-lg text-[#8C737B]">
+        <p className="mx-auto mt-6 max-w-lg font-sans text-lg text-brand-purple">
           The page you&apos;re looking for doesn&apos;t exist, or it moved somewhere quieter.
           Let&apos;s get you back.
         </p>
