@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { Footer } from "@/components/Footer";
@@ -7,6 +8,12 @@ import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
 import { QUIZ_PHASE_LABELS, QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "menstrual" | "follicular" | "ovulation" | "luteal";
@@ -241,7 +248,10 @@ export default function QuizPage() {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isJoiningWaitlist, setIsJoiningWaitlist] = useState(false);
+  const [waitlistError, setWaitlistError] = useState("");
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const router = useRouter();
 
   function handleStart() {
     setCurrentQuestion(0);
@@ -328,6 +338,47 @@ export default function QuizPage() {
       setEmailError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleJoinWaitlist() {
+    setWaitlistError("");
+
+    if (!isValidEmail(email)) {
+      setWaitlistError("Something went wrong. Please try again.");
+      return;
+    }
+
+    setIsJoiningWaitlist(true);
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          name: name.trim() || undefined,
+          listKey: "waitlist",
+          website,
+        }),
+      });
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          setWaitlistError("Too many attempts. Please wait a few minutes and try again.");
+          return;
+        }
+        throw new Error(`Waitlist subscribe failed with status ${response.status}`);
+      }
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "ml-form-success", listKey: "waitlist" });
+      router.push("/founding-member");
+    } catch (error) {
+      console.error("Quiz waitlist subscribe failed", { error });
+      setWaitlistError("Something went wrong. Please try again.");
+    } finally {
+      setIsJoiningWaitlist(false);
     }
   }
 
@@ -536,12 +587,21 @@ export default function QuizPage() {
             <div className="mt-12 rounded-2xl bg-[#623E74] p-8 text-white">
               <p className="font-sans leading-relaxed">{result.ctaLine1}</p>
               <p className="mt-4 font-sans leading-relaxed">{result.ctaLine2}</p>
-              <a
-                href="https://mymoodcycle.com/#waitlist"
-                className="mt-6 inline-block cursor-pointer rounded-full bg-[#DB7094] px-6 py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] focus:ring-offset-2 focus:ring-offset-[#623E74]"
+              <button
+                type="button"
+                onClick={handleJoinWaitlist}
+                disabled={isJoiningWaitlist}
+                className="mt-6 inline-block cursor-pointer rounded-full bg-[#DB7094] px-6 py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094] focus:ring-offset-2 focus:ring-offset-[#623E74] disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Join the waitlist
-              </a>
+                {isJoiningWaitlist ? (
+                  <WaveLoader size="sm" className="mx-auto text-white" />
+                ) : (
+                  "Join the waitlist"
+                )}
+              </button>
+              {waitlistError ? (
+                <p className="mt-3 font-sans text-sm text-red-200">{waitlistError}</p>
+              ) : null}
             </div>
           </div>
         ) : null}
