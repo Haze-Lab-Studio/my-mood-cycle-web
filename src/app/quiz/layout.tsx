@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     absolute: "Why Do I Feel So Different Every Few Weeks? | My Mood Cycle",
   },
   description:
-    "Take the 2-minute quiz and find out what your emotional pattern is actually telling you. Free, private, no account required.",
+    "Take the 2-minute quiz and find out which phase you're most in tune with right now. Free, private, no account required.",
   alternates: {
     canonical: "/quiz",
   },
