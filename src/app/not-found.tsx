@@ -22,7 +22,7 @@ export default function NotFound() {
           href="/"
           className="mt-10 inline-flex items-center rounded-full bg-[#DB7094] px-8 py-3 font-sans font-semibold text-white transition-colors hover:bg-[#C45380] focus:outline-none focus:ring-2 focus:ring-[#DB7094]"
         >
-          Back to home →
+          Back to home
         </Link>
       </main>
 
