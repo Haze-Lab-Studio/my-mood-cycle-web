@@ -6,22 +6,22 @@ import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
-import { QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
+import { QUIZ_PHASE_LABELS, QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
 
 type QuizState = "intro" | "question" | "gate" | "result";
-type ResultKey = "pattern" | "energy" | "sensitivity";
+type ResultKey = "menstrual" | "follicular" | "ovulation" | "luteal";
 type ScoreKey = ResultKey;
 
 type Scores = {
-  pattern: number;
-  energy: number;
-  sensitivity: number;
+  menstrual: number;
+  follicular: number;
+  ovulation: number;
+  luteal: number;
 };
 
-type OptionEffect =
-  | { type: "score"; key: ScoreKey; amount: number }
-  | { type: "awareness"; value: boolean }
-  | { type: "none" };
+const PHASE_KEYS: ResultKey[] = ["menstrual", "follicular", "ovulation", "luteal"];
+
+type OptionEffect = { type: "score"; key: ScoreKey; amount: number };
 
 type QuestionOption = {
   label: string;
@@ -44,195 +44,196 @@ type ResultContent = {
 
 const QUESTIONS: Question[] = [
   {
-    text: "When you're feeling off, \nwhat's the first thing that changes?",
+    text: "Right now, what's your energy \nactually like?",
     options: [
       {
-        label: "My energy disappears — I feel heavy and unmotivated",
-        effect: { type: "score", key: "energy", amount: 1 },
+        label: "Quiet and running low — rest sounds better than anything else",
+        effect: { type: "score", key: "menstrual", amount: 1 },
       },
       {
-        label: "My emotions hit harder than usual — things feel bigger than they should",
-        effect: { type: "score", key: "sensitivity", amount: 1 },
+        label: "Coming back — I want to start something new",
+        effect: { type: "score", key: "follicular", amount: 1 },
       },
       {
-        label: "I want to be alone — people feel like too much effort",
-        effect: { type: "score", key: "sensitivity", amount: 1 },
+        label: "High — I want to be out, around people, doing things",
+        effect: { type: "score", key: "ovulation", amount: 1 },
       },
       {
-        label: "I feel like a different person — I don't recognise myself",
-        effect: { type: "score", key: "pattern", amount: 1 },
-      },
-      {
-        label: "It depends on the week, honestly",
-        effect: { type: "score", key: "pattern", amount: 1 },
+        label: "Winding down — I want to finish what's started, not begin something new",
+        effect: { type: "score", key: "luteal", amount: 1 },
       },
     ],
   },
   {
-    text: "Have you ever felt completely fine one week and completely unlike yourself the next?",
+    text: "When it comes to people right now, \nwhat feels true?",
     options: [
       {
-        label: "Yes, and it happens more often than I'd like to admit",
-        effect: { type: "score", key: "pattern", amount: 2 },
+        label: "I want quiet. Even small talk feels like too much",
+        effect: { type: "score", key: "menstrual", amount: 1 },
       },
       {
-        label: "Yes, but I always assumed it was just stress or circumstances",
-        effect: { type: "score", key: "pattern", amount: 1 },
+        label: "I'm noticing people again — conversations sound interesting",
+        effect: { type: "score", key: "follicular", amount: 1 },
       },
       {
-        label: "Sometimes, now that I think about it",
-        effect: { type: "awareness", value: false },
+        label: "I want to be around everyone. Connecting feels easy right now",
+        effect: { type: "score", key: "ovulation", amount: 1 },
       },
       {
-        label: "Rarely — my moods feel pretty consistent",
-        effect: { type: "none" },
-      },
-      {
-        label: "I've never really paid attention",
-        effect: { type: "awareness", value: false },
+        label: "I want depth, not chit-chat. Shallow conversations feel draining",
+        effect: { type: "score", key: "luteal", amount: 1 },
       },
     ],
   },
   {
-    text: "What feels most frustrating \nwhen things shift?",
+    text: "What's happening in your head \nlately?",
     options: [
       {
-        label: "Feeling inconsistent — like I can't rely on myself",
-        effect: { type: "score", key: "pattern", amount: 1 },
+        label: "Thoughts I've been avoiding are surfacing",
+        effect: { type: "score", key: "menstrual", amount: 1 },
       },
       {
-        label:
-          "Feeling more sensitive than usual — things that normally don't bother me suddenly do",
-        effect: { type: "score", key: "sensitivity", amount: 1 },
+        label: "New ideas keep arriving and I want to act on them",
+        effect: { type: "score", key: "follicular", amount: 1 },
       },
       {
-        label:
-          "Losing energy with no obvious reason — I want to do things but my body won't cooperate",
-        effect: { type: "score", key: "energy", amount: 1 },
+        label: "Words come easily. I feel sharp, expressive",
+        effect: { type: "score", key: "ovulation", amount: 1 },
       },
       {
-        label: "Not understanding why — I just want to know what's actually happening",
-        effect: { type: "score", key: "pattern", amount: 2 },
+        label: "I want to finish things, not start new ones",
+        effect: { type: "score", key: "luteal", amount: 1 },
       },
     ],
   },
   {
-    text: "When you feel this way, \nwhat do you usually tell yourself?",
+    text: "How does your patience \nfeel right now?",
     options: [
       {
-        label: "Something must be wrong with me",
-        effect: { type: "score", key: "pattern", amount: 1 },
+        label: "Low for noise and obligation, but clear underneath it",
+        effect: { type: "score", key: "menstrual", amount: 1 },
       },
       {
-        label: "I'm just tired — I need to push through",
-        effect: { type: "score", key: "energy", amount: 1 },
+        label: "High — new things feel exciting, not draining",
+        effect: { type: "score", key: "follicular", amount: 1 },
       },
       {
-        label: "I'm being too emotional — I need to get it together",
-        effect: { type: "score", key: "sensitivity", amount: 1 },
+        label: "High — I feel confident, comfortable being myself",
+        effect: { type: "score", key: "ovulation", amount: 1 },
       },
       {
-        label: "This is just how I am some weeks",
-        effect: { type: "score", key: "pattern", amount: 1 },
-      },
-      {
-        label: "I don't know — I can never figure it out",
-        effect: { type: "score", key: "pattern", amount: 1 },
+        label: "Short. Small things are hitting harder than they should",
+        effect: { type: "score", key: "luteal", amount: 1 },
       },
     ],
   },
   {
-    text: "What would feel most useful \nto you right now?",
+    text: "What would actually help you \nmost right now?",
     options: [
       {
-        label: "Understanding why my energy levels are so unpredictable",
-        effect: { type: "score", key: "energy", amount: 1 },
+        label: "Permission to slow down",
+        effect: { type: "score", key: "menstrual", amount: 1 },
       },
       {
-        label: "Knowing when the hard weeks are coming so I can prepare",
-        effect: { type: "score", key: "pattern", amount: 1 },
+        label: "Space to start something new",
+        effect: { type: "score", key: "follicular", amount: 1 },
       },
       {
-        label: "Understanding why I feel so much more sensitive at certain times",
-        effect: { type: "score", key: "sensitivity", amount: 1 },
+        label: "People to connect with",
+        effect: { type: "score", key: "ovulation", amount: 1 },
       },
       {
-        label: "Just having a simple explanation for why I feel the way I feel",
-        effect: { type: "score", key: "pattern", amount: 2 },
+        label: "Time alone to finish something and go deep",
+        effect: { type: "score", key: "luteal", amount: 1 },
       },
     ],
   },
 ];
 
 const RESULT_NAMES: Record<ResultKey, string> = {
-  pattern: QUIZ_RESULT_FIELDS.pattern.headline,
-  energy: QUIZ_RESULT_FIELDS.energy.headline,
-  sensitivity: QUIZ_RESULT_FIELDS.sensitivity.headline,
+  menstrual: QUIZ_RESULT_FIELDS.menstrual.headline,
+  follicular: QUIZ_RESULT_FIELDS.follicular.headline,
+  ovulation: QUIZ_RESULT_FIELDS.ovulation.headline,
+  luteal: QUIZ_RESULT_FIELDS.luteal.headline,
 };
 
 const RESULTS: Record<ResultKey, ResultContent> = {
-  pattern: {
-    name: QUIZ_RESULT_FIELDS.pattern.headline,
-    subheading: QUIZ_RESULT_FIELDS.pattern.subheading,
+  menstrual: {
+    name: QUIZ_RESULT_FIELDS.menstrual.headline,
+    subheading: QUIZ_RESULT_FIELDS.menstrual.subheading,
     paragraphs: [
-      "You've probably noticed it — the weeks where you feel capable, social, energised, like the best version of yourself. And then, without warning, the weeks where everything feels heavier. Where you cancel plans. Where you wonder what happened to the person you were seven days ago.",
-      "You haven't lost her. She's just not scheduled for this week.",
-      "What you're experiencing isn't inconsistency. It's your cycle moving through phases — each one with its own emotional signature, its own energy level, its own version of you. Once you can see the pattern, you stop fighting it. You start working with it.",
+      "You know this week. The one where cancelling plans doesn't come with much guilt, where quiet feels like relief instead of loneliness, and even easy small talk suddenly takes real effort.",
+      "You've probably called that antisocial. Or low mood. Or \"being difficult.\"",
+      "Here's what's actually happening: hormone levels shift as your body sheds its lining, and your nervous system becomes more sensitive as a result. Your tolerance for noise, obligation, and pretending drops — not because something's wrong, but because your body is doing real work and asking for less input while it does it.",
+      "This isn't a weakness. It's a different kind of intelligence.",
     ],
     insight:
-      "The shifts you've been experiencing likely follow a predictable pattern — the same emotional signatures appearing at roughly the same points in your cycle, every month. You just haven't had a framework to see it yet.",
-    ctaLine1:
-      "Your free Emotional Cycle Guide is on its way to your inbox. It'll help you start seeing the pattern.",
-    ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
-  },
-  energy: {
-    name: QUIZ_RESULT_FIELDS.energy.headline,
-    subheading: QUIZ_RESULT_FIELDS.energy.subheading,
-    paragraphs: [
-      "You know the feeling. One week you're productive, motivated, on top of everything. Then something shifts. Your energy disappears. Simple tasks feel enormous. You want to want things but your body won't cooperate.",
-      "And you tell yourself you're being lazy. That you need to push through. That something must be wrong with you.",
-      "Nothing is wrong with you.",
-      "In the week or two before your period, estrogen and progesterone both drop. Your brain has less of the chemicals that make you feel calm, motivated, and capable. Your body is doing exactly what it's supposed to do.",
-    ],
-    insight:
-      "The energy crashes you're experiencing likely have a timing pattern — appearing at roughly the same point in your cycle every month. Once you can identify when they're coming, you can stop fighting them and start planning around them.",
+      "The weeks you want to disappear for a few days likely follow a predictable pattern — showing up at roughly the same point in your cycle every month. Once you can see it coming, you can plan for it instead of fighting it.",
     ctaLine1: "Your free Emotional Cycle Guide is on its way to your inbox.",
     ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
-  sensitivity: {
-    name: QUIZ_RESULT_FIELDS.sensitivity.headline,
-    subheading: QUIZ_RESULT_FIELDS.sensitivity.subheading,
+  follicular: {
+    name: QUIZ_RESULT_FIELDS.follicular.headline,
+    subheading: QUIZ_RESULT_FIELDS.follicular.subheading,
     paragraphs: [
-      "You've probably been told you're sensitive. Maybe you've told yourself that. That you feel things too deeply, that you take things too personally, that you need to toughen up.",
-      "But here's what's actually happening.",
-      "In the days before your period, your brain's emotional alarm system becomes more reactive. The amygdala gets louder. The prefrontal cortex gets quieter. You're not imagining it. You're not being dramatic. Your brain chemistry is genuinely different this week.",
-      "The sensitivity you experience isn't who you are. It's where you are in your cycle.",
+      "You know this week too — the one where the fog just lifts. Ideas show up out of nowhere. You want to start things. People suddenly seem more interesting again.",
+      "You've probably called that a good mood. Or gotten a little suspicious of it, like it won't last.",
+      "Here's what's actually happening: oestrogen is rising as your body prepares to ovulate, bringing a real lift in mood and mental clarity with it. This is often the most generative window in your whole cycle — new projects, hard conversations, and creative work all tend to flow more easily here.",
+      "The impulse to begin something right now is worth listening to.",
     ],
     insight:
-      "The weeks where you feel more emotionally reactive likely follow a predictable pattern. Once you can see it coming, you can hold it differently. Not as a character flaw. As information.",
+      "The bursts of energy and motivation you're describing likely follow a predictable pattern — arriving at roughly the same point in your cycle every month. Once you can see it coming, you can use it instead of wondering when it'll disappear.",
+    ctaLine1: "Your free Emotional Cycle Guide is on its way to your inbox.",
+    ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
+  },
+  ovulation: {
+    name: QUIZ_RESULT_FIELDS.ovulation.headline,
+    subheading: QUIZ_RESULT_FIELDS.ovulation.subheading,
+    paragraphs: [
+      "You know this week — the one where conversation feels easy, where you're comfortable taking up space, where being around people energises you instead of draining you.",
+      "You've probably called that confidence. Or wondered if you're performing a version of yourself that won't last.",
+      "Here's what's actually happening: hormonal changes around ovulation create a genuine window of greater energy, openness, and ease. Words come more naturally. Warmth comes more naturally. Some people notice they're funnier, more persuasive, more present here.",
+      "This isn't performance. It's a hormonal window that genuinely makes connection feel less costly and more rewarding.",
+    ],
+    insight:
+      "The stretches where connection suddenly feels effortless likely follow a predictable pattern — arriving at roughly the same point in your cycle every month. Once you can see it coming, you can plan the things that need your full presence for exactly this window.",
+    ctaLine1: "Your free Emotional Cycle Guide is on its way to your inbox.",
+    ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
+  },
+  luteal: {
+    name: QUIZ_RESULT_FIELDS.luteal.headline,
+    subheading: QUIZ_RESULT_FIELDS.luteal.subheading,
+    paragraphs: [
+      "You know this week. The one where getting off the couch counts as a genuine achievement, where small comments land harder than they should, where you want depth, not small talk — or you want to be left alone entirely.",
+      "You've probably called that lazy. Or too sensitive. Or overreacting.",
+      "Here's what's actually happening: after ovulation, oestrogen drops and progesterone rises, then both fall together toward the end of the phase. That shift can make you more sensitive to noise, to conflict, to things that feel unfinished — and it genuinely lowers your energy and patience along with it.",
+      "You're not overreacting. You're more attuned. There's a difference.",
+    ],
+    insight:
+      "The weeks where everything feels heavier — physically and emotionally — likely follow a predictable pattern, arriving at roughly the same point in your cycle every month. Once you can see it coming, you can stop blaming yourself and start planning around it.",
     ctaLine1: "Your free Emotional Cycle Guide is on its way to your inbox.",
     ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
 };
 
-function tallyResult(scores: Scores): ResultKey {
-  const max = Math.max(scores.pattern, scores.energy, scores.sensitivity);
-  if (scores.pattern === max) return "pattern";
-  if (scores.energy === max) return "energy";
-  return "sensitivity";
+function tallyResult(scores: Scores, firstAnswerKey: ResultKey): ResultKey {
+  const max = Math.max(...PHASE_KEYS.map((key) => scores[key]));
+  const tied = PHASE_KEYS.filter((key) => scores[key] === max);
+  if (tied.length === 1) return tied[0];
+  if (tied.includes(firstAnswerKey)) return firstAnswerKey;
+  return "luteal";
 }
-
-/** Q2 awareness modifier — personalises the result description (Notion quiz brief). */
-const AWARENESS_NOTE = {
-  high: "You've felt this before but never had a framework.",
-  low: "This might explain something you've been wondering about.",
-} as const;
 
 export default function QuizPage() {
   const [currentState, setCurrentState] = useState<QuizState>("intro");
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [scores, setScores] = useState<Scores>({ pattern: 0, energy: 0, sensitivity: 0 });
-  const [awarenessHigh, setAwarenessHigh] = useState(true);
+  const [scores, setScores] = useState<Scores>({
+    menstrual: 0,
+    follicular: 0,
+    ovulation: 0,
+    luteal: 0,
+  });
+  const [firstAnswerKey, setFirstAnswerKey] = useState<ResultKey | null>(null);
   const [resultKey, setResultKey] = useState<ResultKey | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -255,20 +256,21 @@ export default function QuizPage() {
     if (selectedOption === null) return;
 
     const effect = QUESTIONS[currentQuestion].options[selectedOption].effect;
-    let nextScores = scores;
+    const nextFirstAnswerKey = currentQuestion === 0 ? effect.key : firstAnswerKey;
 
-    if (effect.type === "score") {
-      nextScores = {
-        ...scores,
-        [effect.key]: scores[effect.key] + effect.amount,
-      };
-      setScores(nextScores);
-    } else if (effect.type === "awareness") {
-      setAwarenessHigh(effect.value);
+    if (currentQuestion === 0) {
+      setFirstAnswerKey(effect.key);
     }
 
+    const nextScores = {
+      ...scores,
+      [effect.key]: scores[effect.key] + effect.amount,
+    };
+    setScores(nextScores);
+
     if (currentQuestion >= QUESTIONS.length - 1) {
-      setResultKey(tallyResult(nextScores));
+      if (nextFirstAnswerKey === null) return;
+      setResultKey(tallyResult(nextScores, nextFirstAnswerKey));
       setSelectedOption(null);
       setCurrentState("gate");
       return;
@@ -456,6 +458,11 @@ export default function QuizPage() {
                   value={RESULTS[resultKey].subheading}
                 />
                 <input
+                  type="hidden"
+                  name="quiz_result_phase"
+                  value={QUIZ_PHASE_LABELS[resultKey]}
+                />
+                <input
                   type="text"
                   name="name"
                   autoComplete="name"
@@ -522,10 +529,6 @@ export default function QuizPage() {
                 {paragraph}
               </p>
             ))}
-
-            <p className="mt-4 font-sans leading-relaxed text-[#3D2930]">
-              {awarenessHigh ? AWARENESS_NOTE.high : AWARENESS_NOTE.low}
-            </p>
 
             <hr className="mt-8 border-0 border-t border-[#DB7094]" />
             <p className="mt-8 font-sans text-sm font-semibold text-[#3D2930]">{result.insight}</p>

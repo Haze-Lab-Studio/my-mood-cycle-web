@@ -1,23 +1,35 @@
-export const QUIZ_LIST_KEYS = ["pattern", "energy", "sensitivity"] as const;
+export const QUIZ_LIST_KEYS = ["menstrual", "follicular", "ovulation", "luteal"] as const;
 
 export type QuizListKey = (typeof QUIZ_LIST_KEYS)[number];
 
 export const QUIZ_RESULT_FIELDS: Record<QuizListKey, { headline: string; subheading: string }> = {
-  pattern: {
-    headline: "You're not all over the place. \nYou're in motion.",
+  menstrual: {
+    headline: "You're not antisocial. \nYou're turning inward.",
     subheading:
-      "The version of you who can do anything and the version who can barely get off the couch aren't two different people. They're the same person at different points in the same cycle.",
+      "The week you want quiet instead of company, where small talk suddenly costs more than it's worth — isn't you being difficult. It's a different kind of intelligence.",
   },
-  energy: {
-    headline: "You're not lazy. \nYou're luteal.",
+  follicular: {
+    headline: "You're not restless. \nYou're emerging.",
     subheading:
-      "The week where you can't seem to do anything — where getting off the couch feels like a genuine achievement — isn't a character flaw. It has a name.",
+      "The week ideas suddenly arrive and starting something new feels possible again — isn't you being unrealistic. It's oestrogen rising, and it's worth listening to.",
   },
-  sensitivity: {
-    headline: "You're not too sensitive. \nYou're just in the wrong week.",
+  ovulation: {
+    headline: "You're not performing. \nYou're opening up.",
     subheading:
-      "The week where everything lands harder than it should — where a small comment ruins your day, where you cry at something you'd normally scroll past — isn't a personality flaw. It's a phase.",
+      "The week you can't stop talking to people and connection feels effortless instead of exhausting — isn't you putting on a show. It's a hormonal window, and it's genuinely easier to be around people right now.",
   },
+  luteal: {
+    headline: "You're not lazy. \nYou're reflecting.",
+    subheading:
+      "The week small things suddenly carry more weight and you want depth over small talk — isn't you overreacting. You're more attuned. There's a difference.",
+  },
+};
+
+export const QUIZ_PHASE_LABELS: Record<QuizListKey, string> = {
+  menstrual: "Menstrual",
+  follicular: "Follicular",
+  ovulation: "Ovulation",
+  luteal: "Luteal",
 };
 
 export function isQuizListKey(value: string): value is QuizListKey {
@@ -30,5 +42,6 @@ export function quizResultFieldsForMailerLite(listKey: QuizListKey) {
   return {
     quiz_result_headline: headline.replace(/\s+/g, " ").trim(),
     quiz_result_subheading: subheading.replace(/\s+/g, " ").trim(),
+    quiz_result_phase: QUIZ_PHASE_LABELS[listKey],
   };
 }

@@ -51,7 +51,8 @@ export async function POST(request: Request) {
   if (!isListKey(listKey)) {
     return NextResponse.json(
       {
-        error: 'listKey must be "waitlist", "guide", "pattern", "energy", or "sensitivity".',
+        error:
+          'listKey must be "waitlist", "guide", "menstrual", "follicular", "ovulation", or "luteal".',
       },
       { status: 400 },
     );

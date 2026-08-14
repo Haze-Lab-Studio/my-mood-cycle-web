@@ -1,15 +1,23 @@
 import { isValidEmail, isValidName } from "@/lib/email";
 
-export const LIST_KEYS = ["waitlist", "guide", "pattern", "energy", "sensitivity"] as const;
+export const LIST_KEYS = [
+  "waitlist",
+  "guide",
+  "menstrual",
+  "follicular",
+  "ovulation",
+  "luteal",
+] as const;
 
 export type ListKey = (typeof LIST_KEYS)[number];
 
 const GROUP_ENV_BY_LIST: Record<ListKey, string> = {
   waitlist: "MAILERLITE_GROUP_WAITLIST",
   guide: "MAILERLITE_GROUP_GUIDE",
-  pattern: "MAILERLITE_GROUP_PATTERN",
-  energy: "MAILERLITE_GROUP_ENERGY",
-  sensitivity: "MAILERLITE_GROUP_SENSITIVITY",
+  menstrual: "MAILERLITE_GROUP_MENSTRUAL",
+  follicular: "MAILERLITE_GROUP_FOLLICULAR",
+  ovulation: "MAILERLITE_GROUP_OVULATION",
+  luteal: "MAILERLITE_GROUP_LUTEAL",
 };
 
 /**
