@@ -1,14 +1,13 @@
 type Props = {
   className?: string;
-  /** Visual size — `hero` is the stacked homepage mark; `mark` is layout-free. */
-  size?: "sm" | "md" | "hero" | "mark";
+  /** Visual size — `mark` is the layout-free homepage wave. */
+  size?: "sm" | "md" | "mark";
   label?: string;
 };
 
 const sizeClassName: Record<NonNullable<Props["size"]>, string> = {
   sm: "h-7 w-12",
   md: "h-10 w-[4.5rem]",
-  hero: "mx-auto mt-14 w-full max-w-[420px] animate-float-slow",
   mark: "w-full animate-float-slow",
 };
 
