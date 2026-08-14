@@ -8,7 +8,7 @@ import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
 import { pushDataLayerEvent } from "@/lib/analytics";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
-import { QUIZ_PHASE_LABELS, QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
+import { QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
 
 declare global {
   interface Window {
@@ -514,17 +514,6 @@ export default function QuizPage() {
                   value={website}
                   onChange={(event) => setWebsite(event.target.value)}
                   className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
-                />
-                <input type="hidden" name="quiz_result_headline" value={RESULTS[resultKey].name} />
-                <input
-                  type="hidden"
-                  name="quiz_result_subheading"
-                  value={RESULTS[resultKey].subheading}
-                />
-                <input
-                  type="hidden"
-                  name="quiz_result_phase"
-                  value={QUIZ_PHASE_LABELS[resultKey]}
                 />
                 <input
                   type="text"
