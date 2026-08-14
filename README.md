@@ -23,6 +23,7 @@ Copy `.env.example` to `.env.local` (or set the same keys in Vercel) for email c
 | --- | --- |
 | `MAILERLITE_API_KEY` | Private MailerLite Connect API token (server-only) |
 | `MAILERLITE_GROUP_WAITLIST` | Group ID for the homepage waitlist |
+| `MAILERLITE_GROUP_FOUNDING_MEMBER` | Group ID for the post-quiz founding member CTA |
 | `MAILERLITE_GROUP_GUIDE` | Group ID for the Emotional Cycle Guide signup |
 | `MAILERLITE_GROUP_MENSTRUAL` | Group ID for the menstrual quiz result |
 | `MAILERLITE_GROUP_FOLLICULAR` | Group ID for the follicular quiz result |

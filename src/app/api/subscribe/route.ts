@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          'listKey must be "waitlist", "guide", "menstrual", "follicular", "ovulation", or "luteal".',
+          'listKey must be "waitlist", "founding-member", "guide", "menstrual", "follicular", "ovulation", or "luteal".',
       },
       { status: 400 },
     );

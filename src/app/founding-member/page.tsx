@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { BrandName } from "@/components/BrandName";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+
+import { FoundingMemberTracking } from "./FoundingMemberTracking";
 
 export const metadata: Metadata = {
   title: "You're a Founding Member",
@@ -20,6 +23,9 @@ export const metadata: Metadata = {
 export default function FoundingMemberPage() {
   return (
     <div className="min-h-screen bg-cream">
+      <Suspense fallback={null}>
+        <FoundingMemberTracking />
+      </Suspense>
       <Nav />
 
       <main className="px-6 py-16 md:px-10 md:py-24">

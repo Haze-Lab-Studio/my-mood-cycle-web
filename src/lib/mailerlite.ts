@@ -2,6 +2,7 @@ import { isValidEmail, isValidName } from "@/lib/email";
 
 export const LIST_KEYS = [
   "waitlist",
+  "founding-member",
   "guide",
   "menstrual",
   "follicular",
@@ -13,6 +14,7 @@ export type ListKey = (typeof LIST_KEYS)[number];
 
 const GROUP_ENV_BY_LIST: Record<ListKey, string> = {
   waitlist: "MAILERLITE_GROUP_WAITLIST",
+  "founding-member": "MAILERLITE_GROUP_FOUNDING_MEMBER",
   guide: "MAILERLITE_GROUP_GUIDE",
   menstrual: "MAILERLITE_GROUP_MENSTRUAL",
   follicular: "MAILERLITE_GROUP_FOLLICULAR",
@@ -102,7 +104,7 @@ export function resolveGroupId(listKey: ListKey): { groupId?: string; envName: s
 }
 
 export function listKeyRequiresName(listKey: ListKey): boolean {
-  return listKey !== "waitlist";
+  return listKey !== "waitlist" && listKey !== "founding-member";
 }
 
 type CreateSubscriberInput = {

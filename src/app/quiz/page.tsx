@@ -6,6 +6,7 @@ import { useState, type FormEvent } from "react";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
+import { pushDataLayerEvent } from "@/lib/analytics";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
 import { QUIZ_PHASE_LABELS, QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
 
@@ -256,6 +257,7 @@ export default function QuizPage() {
   function handleStart() {
     setCurrentQuestion(0);
     setCurrentState("question");
+    pushDataLayerEvent("quiz_start");
   }
 
   function handleSelectOption(optionIndex: number) {
@@ -277,10 +279,17 @@ export default function QuizPage() {
       [effect.key]: scores[effect.key] + effect.amount,
     };
     setScores(nextScores);
+    pushDataLayerEvent("quiz_question_answered", {
+      question_number: currentQuestion + 1,
+      selected_phase: effect.key,
+    });
 
     if (currentQuestion >= QUESTIONS.length - 1) {
       if (nextFirstAnswerKey === null) return;
-      setResultKey(tallyResult(nextScores, nextFirstAnswerKey));
+      const resolved = tallyResult(nextScores, nextFirstAnswerKey);
+      setResultKey(resolved);
+      pushDataLayerEvent("quiz_completed", { result_phase: resolved });
+      pushDataLayerEvent("quiz_email_gate_viewed", { result_phase: resolved });
       setSelectedOption(null);
       setCurrentState("gate");
       return;
@@ -326,15 +335,19 @@ export default function QuizPage() {
 
       if (!response.ok) {
         if (response.status === 429) {
+          pushDataLayerEvent("quiz_email_submit_error", { error_type: "rate_limited" });
           setEmailError("Too many attempts. Please wait a few minutes and try again.");
           return;
         }
         throw new Error(`Subscribe failed with status ${response.status}`);
       }
 
+      pushDataLayerEvent("quiz_email_submitted", { result_phase: resultKey });
+      pushDataLayerEvent("quiz_result_viewed", { result_phase: resultKey });
       setCurrentState("result");
     } catch (error) {
       console.error("Quiz subscribe failed", { resultKey, error });
+      pushDataLayerEvent("quiz_email_submit_error", { error_type: "server_error" });
       setEmailError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -342,6 +355,7 @@ export default function QuizPage() {
   }
 
   async function handleJoinWaitlist() {
+    pushDataLayerEvent("quiz_waitlist_cta_click", { result_phase: resultKey });
     setWaitlistError("");
 
     if (!isValidEmail(email)) {
@@ -358,7 +372,7 @@ export default function QuizPage() {
         body: JSON.stringify({
           email: email.trim(),
           name: name.trim() || undefined,
-          listKey: "waitlist",
+          listKey: "founding-member",
           website,
         }),
       });
@@ -368,12 +382,12 @@ export default function QuizPage() {
           setWaitlistError("Too many attempts. Please wait a few minutes and try again.");
           return;
         }
-        throw new Error(`Waitlist subscribe failed with status ${response.status}`);
+        throw new Error(`Founding member subscribe failed with status ${response.status}`);
       }
 
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "ml-form-success", listKey: "waitlist" });
-      router.push("/founding-member");
+      window.dataLayer.push({ event: "ml-form-success", listKey: "founding-member" });
+      router.push("/founding-member?source=quiz");
     } catch (error) {
       console.error("Quiz waitlist subscribe failed", { error });
       setWaitlistError("Something went wrong. Please try again.");
