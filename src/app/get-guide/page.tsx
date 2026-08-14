@@ -156,13 +156,15 @@ export default function GetGuidePage() {
         <div className="mx-auto max-w-xl">
           <h2 className="text-3xl text-brand-purple md:text-5xl">Get your free guide</h2>
           <p className="mt-4 text-lg leading-relaxed text-brand-purple-light">
-            Enter your email and we&apos;ll send it straight to your inbox.
+            Enter your name and email and we&apos;ll send it straight to your inbox.
           </p>
           <div className="mt-10">
             <SubscribeForm
               listKey="guide"
               centered
+              collectName
               submitLabel="Send me the guide"
+              namePlaceholder="Your name"
               emailPlaceholder="your@email.com"
               helperText="No spam. Unsubscribe any time. Your data stays private."
               helperTextClassName="mx-auto mt-4 text-[0.9rem] leading-relaxed text-brand-purple-light"

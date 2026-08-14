@@ -18,7 +18,7 @@ export default function NotFound() {
       <Nav />
 
       <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-6 py-16 text-center md:py-24">
-        <WaveLoader size="hero" className="mb-10" label="My Mood Cycle app icon" />
+        <WaveLoader size="mark" className="mb-10 max-w-[420px]" label="My Mood Cycle app icon" />
         <h1 className="font-serif text-4xl text-brand-purple md:text-5xl">
           This page took a different path.
         </h1>

@@ -1,15 +1,25 @@
-import { isValidEmail } from "@/lib/email";
+import { isValidEmail, isValidName } from "@/lib/email";
 
-export const LIST_KEYS = ["waitlist", "guide", "pattern", "energy", "sensitivity"] as const;
+export const LIST_KEYS = [
+  "waitlist",
+  "founding-member",
+  "guide",
+  "menstrual",
+  "follicular",
+  "ovulation",
+  "luteal",
+] as const;
 
 export type ListKey = (typeof LIST_KEYS)[number];
 
 const GROUP_ENV_BY_LIST: Record<ListKey, string> = {
   waitlist: "MAILERLITE_GROUP_WAITLIST",
+  "founding-member": "MAILERLITE_GROUP_FOUNDING_MEMBER",
   guide: "MAILERLITE_GROUP_GUIDE",
-  pattern: "MAILERLITE_GROUP_PATTERN",
-  energy: "MAILERLITE_GROUP_ENERGY",
-  sensitivity: "MAILERLITE_GROUP_SENSITIVITY",
+  menstrual: "MAILERLITE_GROUP_MENSTRUAL",
+  follicular: "MAILERLITE_GROUP_FOLLICULAR",
+  ovulation: "MAILERLITE_GROUP_OVULATION",
+  luteal: "MAILERLITE_GROUP_LUTEAL",
 };
 
 /**
@@ -93,12 +103,18 @@ export function resolveGroupId(listKey: ListKey): { groupId?: string; envName: s
   return { groupId: process.env[envName], envName };
 }
 
+export function listKeyRequiresName(listKey: ListKey): boolean {
+  return listKey !== "waitlist" && listKey !== "founding-member";
+}
+
 type CreateSubscriberInput = {
   email: string;
   groupId: string;
   apiKey: string;
   clientIp: string;
+  name?: string;
   country?: string;
+  extraFields?: Record<string, string>;
 };
 
 export async function createMailerLiteSubscriber({
@@ -106,13 +122,15 @@ export async function createMailerLiteSubscriber({
   groupId,
   apiKey,
   clientIp,
+  name,
   country,
+  extraFields,
 }: CreateSubscriberInput): Promise<Response> {
   const payload: {
     email: string;
     groups: string[];
     ip_address?: string;
-    fields?: { country: string };
+    fields?: Record<string, string>;
   } = {
     email,
     groups: [groupId],
@@ -122,8 +140,12 @@ export async function createMailerLiteSubscriber({
   if (clientIp !== "unknown") {
     payload.ip_address = clientIp;
   }
-  if (country) {
-    payload.fields = { country };
+  if (name || country || extraFields) {
+    payload.fields = {
+      ...(name ? { name } : {}),
+      ...(country ? { country } : {}),
+      ...extraFields,
+    };
   }
 
   return fetch("https://connect.mailerlite.com/api/subscribers", {
@@ -141,4 +163,9 @@ export async function createMailerLiteSubscriber({
 export function validateSubscribeEmail(rawEmail: unknown): string | null {
   if (typeof rawEmail !== "string" || !isValidEmail(rawEmail)) return null;
   return rawEmail.trim();
+}
+
+export function validateSubscribeName(rawName: unknown): string | null {
+  if (typeof rawName !== "string" || !isValidName(rawName)) return null;
+  return rawName.trim();
 }
