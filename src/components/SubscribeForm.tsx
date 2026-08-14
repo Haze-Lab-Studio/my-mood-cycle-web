@@ -114,7 +114,7 @@ export function SubscribeForm({
         throw new Error(`Subscribe failed with status ${response.status}`);
       }
 
-      pushDataLayerEvent("ml-form-success", { listKey });
+      pushDataLayerEvent("ml-form-success", { list_key: listKey });
       setIsSuccess(true);
     } catch (error) {
       console.error("Subscribe failed", { listKey, error });
