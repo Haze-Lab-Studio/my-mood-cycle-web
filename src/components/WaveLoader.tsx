@@ -8,7 +8,7 @@ type Props = {
 const sizeClassName: Record<NonNullable<Props["size"]>, string> = {
   sm: "h-7 w-12",
   md: "h-10 w-[4.5rem]",
-  hero: "mx-auto mt-14 w-full max-w-[420px] animate-float-slow",
+  hero: "mx-auto w-full max-w-[420px] animate-float-slow",
 };
 
 export function WaveLoader({ className = "", size = "md", label = "Loading" }: Props) {

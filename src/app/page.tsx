@@ -135,7 +135,7 @@ export default function HomePage() {
                 helperText="Be the first to know when we launch • No spam"
               />
             </div>
-            <WaveLoader size="hero" label="My Mood Cycle app icon" />
+            <WaveLoader size="hero" className="mt-14" label="My Mood Cycle app icon" />
           </div>
         </div>
       </section>
