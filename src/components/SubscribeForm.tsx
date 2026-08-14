@@ -3,6 +3,7 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 
 import { WaveLoader } from "@/components/WaveLoader";
+import { pushDataLayerEvent } from "@/lib/analytics";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
 
 type ListKey = "waitlist" | "guide";
@@ -113,8 +114,7 @@ export function SubscribeForm({
         throw new Error(`Subscribe failed with status ${response.status}`);
       }
 
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "ml-form-success", listKey });
+      pushDataLayerEvent("ml-form-success", { listKey });
       setIsSuccess(true);
     } catch (error) {
       console.error("Subscribe failed", { listKey, error });

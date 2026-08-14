@@ -378,8 +378,7 @@ export default function QuizPage() {
         throw new Error(`Founding member subscribe failed with status ${response.status}`);
       }
 
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "ml-form-success", listKey: "founding-member" });
+      pushDataLayerEvent("ml-form-success", { listKey: "founding-member" });
       router.push("/founding-member?source=quiz");
     } catch (error) {
       console.error("Quiz waitlist subscribe failed", { error });
