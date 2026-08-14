@@ -8,22 +8,13 @@ import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
 import { pushDataLayerEvent } from "@/lib/analytics";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
-import { QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
+import { QUIZ_LIST_KEYS, QUIZ_RESULT_FIELDS, type QuizListKey } from "@/lib/quiz-results";
 
 type QuizState = "intro" | "question" | "gate" | "result";
-type ResultKey = "menstrual" | "follicular" | "ovulation" | "luteal";
-type ScoreKey = ResultKey;
 
-type Scores = {
-  menstrual: number;
-  follicular: number;
-  ovulation: number;
-  luteal: number;
-};
+type Scores = Record<QuizListKey, number>;
 
-const PHASE_KEYS: ResultKey[] = ["menstrual", "follicular", "ovulation", "luteal"];
-
-type OptionEffect = { type: "score"; key: ScoreKey; amount: number };
+type OptionEffect = { type: "score"; key: QuizListKey; amount: number };
 
 type QuestionOption = {
   label: string;
@@ -152,14 +143,14 @@ const QUESTIONS: Question[] = [
   },
 ];
 
-const RESULT_NAMES: Record<ResultKey, string> = {
+const RESULT_NAMES: Record<QuizListKey, string> = {
   menstrual: QUIZ_RESULT_FIELDS.menstrual.headline,
   follicular: QUIZ_RESULT_FIELDS.follicular.headline,
   ovulation: QUIZ_RESULT_FIELDS.ovulation.headline,
   luteal: QUIZ_RESULT_FIELDS.luteal.headline,
 };
 
-const RESULTS: Record<ResultKey, ResultContent> = {
+const RESULTS: Record<QuizListKey, ResultContent> = {
   menstrual: {
     name: QUIZ_RESULT_FIELDS.menstrual.headline,
     subheading: QUIZ_RESULT_FIELDS.menstrual.subheading,
@@ -218,9 +209,9 @@ const RESULTS: Record<ResultKey, ResultContent> = {
   },
 };
 
-function tallyResult(scores: Scores, firstAnswerKey: ResultKey): ResultKey {
-  const max = Math.max(...PHASE_KEYS.map((key) => scores[key]));
-  const tied = PHASE_KEYS.filter((key) => scores[key] === max);
+function tallyResult(scores: Scores, firstAnswerKey: QuizListKey): QuizListKey {
+  const max = Math.max(...QUIZ_LIST_KEYS.map((key) => scores[key]));
+  const tied = QUIZ_LIST_KEYS.filter((key) => scores[key] === max);
   if (tied.includes(firstAnswerKey)) return firstAnswerKey;
   return tied[0];
 }
@@ -234,8 +225,8 @@ export default function QuizPage() {
     ovulation: 0,
     luteal: 0,
   });
-  const [firstAnswerKey, setFirstAnswerKey] = useState<ResultKey | null>(null);
-  const [resultKey, setResultKey] = useState<ResultKey | null>(null);
+  const [firstAnswerKey, setFirstAnswerKey] = useState<QuizListKey | null>(null);
+  const [resultKey, setResultKey] = useState<QuizListKey | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
