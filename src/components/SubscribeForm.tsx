@@ -3,15 +3,17 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 
 import { WaveLoader } from "@/components/WaveLoader";
-import { EMAIL_MAX_LENGTH, isValidEmail } from "@/lib/email";
+import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
 
 type ListKey = "waitlist" | "guide";
 
 type Props = {
   listKey: ListKey;
   centered?: boolean;
+  collectName?: boolean;
   submitLabel?: string;
   emailPlaceholder?: string;
+  namePlaceholder?: string;
   helperText?: ReactNode;
   helperTextClassName?: string;
   successTitle?: string;
@@ -58,15 +60,19 @@ declare global {
 export function SubscribeForm({
   listKey,
   centered = false,
+  collectName = false,
   submitLabel = "Join the waitlist",
   emailPlaceholder = "Enter your email",
+  namePlaceholder = "Your name",
   helperText,
   helperTextClassName = defaultHelperTextClassName,
   successTitle,
   successBody,
 }: Props) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
+  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -78,7 +84,13 @@ export function SubscribeForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setNameError("");
     setEmailError("");
+
+    if (collectName && !isValidName(name)) {
+      setNameError("Please enter your name.");
+      return;
+    }
 
     if (!isValidEmail(email)) {
       setEmailError("Please enter a valid email address.");
@@ -93,6 +105,7 @@ export function SubscribeForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email.trim(),
+          name: collectName ? name.trim() : undefined,
           listKey,
           website,
         }),
@@ -141,6 +154,28 @@ export function SubscribeForm({
             onChange={(event) => setWebsite(event.target.value)}
             className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
           />
+          {collectName ? (
+            <>
+              <input
+                type="text"
+                name="name"
+                autoComplete="name"
+                aria-label="name"
+                aria-required="true"
+                maxLength={NAME_MAX_LENGTH}
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                  if (nameError) setNameError("");
+                }}
+                placeholder={namePlaceholder}
+                className="w-full rounded-full border border-brand-rose/40 bg-white px-5 py-3 font-sans text-brand-purple placeholder:text-brand-purple-light focus:border-brand-rose focus:outline-none"
+              />
+              {nameError ? (
+                <p className="mt-2 text-left text-sm text-red-500">{nameError}</p>
+              ) : null}
+            </>
+          ) : null}
           <input
             type="email"
             name="email"
@@ -154,7 +189,9 @@ export function SubscribeForm({
               if (emailError) setEmailError("");
             }}
             placeholder={emailPlaceholder}
-            className="w-full rounded-full border border-brand-rose/40 bg-white px-5 py-3 font-sans text-brand-purple placeholder:text-brand-purple-light focus:border-brand-rose focus:outline-none"
+            className={`w-full rounded-full border border-brand-rose/40 bg-white px-5 py-3 font-sans text-brand-purple placeholder:text-brand-purple-light focus:border-brand-rose focus:outline-none ${
+              collectName ? "mt-3" : ""
+            }`}
           />
           {emailError ? <p className="mt-2 text-left text-sm text-red-500">{emailError}</p> : null}
           <button

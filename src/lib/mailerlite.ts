@@ -1,4 +1,4 @@
-import { isValidEmail } from "@/lib/email";
+import { isValidEmail, isValidName } from "@/lib/email";
 
 export const LIST_KEYS = ["waitlist", "guide", "pattern", "energy", "sensitivity"] as const;
 
@@ -93,12 +93,18 @@ export function resolveGroupId(listKey: ListKey): { groupId?: string; envName: s
   return { groupId: process.env[envName], envName };
 }
 
+export function listKeyRequiresName(listKey: ListKey): boolean {
+  return listKey !== "waitlist";
+}
+
 type CreateSubscriberInput = {
   email: string;
   groupId: string;
   apiKey: string;
   clientIp: string;
+  name?: string;
   country?: string;
+  extraFields?: Record<string, string>;
 };
 
 export async function createMailerLiteSubscriber({
@@ -106,13 +112,15 @@ export async function createMailerLiteSubscriber({
   groupId,
   apiKey,
   clientIp,
+  name,
   country,
+  extraFields,
 }: CreateSubscriberInput): Promise<Response> {
   const payload: {
     email: string;
     groups: string[];
     ip_address?: string;
-    fields?: { country: string };
+    fields?: Record<string, string>;
   } = {
     email,
     groups: [groupId],
@@ -122,8 +130,12 @@ export async function createMailerLiteSubscriber({
   if (clientIp !== "unknown") {
     payload.ip_address = clientIp;
   }
-  if (country) {
-    payload.fields = { country };
+  if (name || country || extraFields) {
+    payload.fields = {
+      ...(name ? { name } : {}),
+      ...(country ? { country } : {}),
+      ...extraFields,
+    };
   }
 
   return fetch("https://connect.mailerlite.com/api/subscribers", {
@@ -141,4 +153,9 @@ export async function createMailerLiteSubscriber({
 export function validateSubscribeEmail(rawEmail: unknown): string | null {
   if (typeof rawEmail !== "string" || !isValidEmail(rawEmail)) return null;
   return rawEmail.trim();
+}
+
+export function validateSubscribeName(rawName: unknown): string | null {
+  if (typeof rawName !== "string" || !isValidName(rawName)) return null;
+  return rawName.trim();
 }

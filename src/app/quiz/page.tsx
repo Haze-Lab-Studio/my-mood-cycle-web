@@ -5,7 +5,8 @@ import { useState, type FormEvent } from "react";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { WaveLoader } from "@/components/WaveLoader";
-import { EMAIL_MAX_LENGTH, isValidEmail } from "@/lib/email";
+import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
+import { QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
 
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "pattern" | "energy" | "sensitivity";
@@ -164,16 +165,15 @@ const QUESTIONS: Question[] = [
 ];
 
 const RESULT_NAMES: Record<ResultKey, string> = {
-  pattern: "You're not all over the place. \nYou're in motion.",
-  energy: "You're not lazy. \nYou're luteal.",
-  sensitivity: "You're not too sensitive. \nYou're just in the wrong week.",
+  pattern: QUIZ_RESULT_FIELDS.pattern.headline,
+  energy: QUIZ_RESULT_FIELDS.energy.headline,
+  sensitivity: QUIZ_RESULT_FIELDS.sensitivity.headline,
 };
 
 const RESULTS: Record<ResultKey, ResultContent> = {
   pattern: {
-    name: RESULT_NAMES.pattern,
-    subheading:
-      "The version of you who can do anything and the version who can barely get off the couch aren't two different people. They're the same person at different points in the same cycle.",
+    name: QUIZ_RESULT_FIELDS.pattern.headline,
+    subheading: QUIZ_RESULT_FIELDS.pattern.subheading,
     paragraphs: [
       "You've probably noticed it — the weeks where you feel capable, social, energised, like the best version of yourself. And then, without warning, the weeks where everything feels heavier. Where you cancel plans. Where you wonder what happened to the person you were seven days ago.",
       "You haven't lost her. She's just not scheduled for this week.",
@@ -186,9 +186,8 @@ const RESULTS: Record<ResultKey, ResultContent> = {
     ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
   energy: {
-    name: RESULT_NAMES.energy,
-    subheading:
-      "The week where you can't seem to do anything — where getting off the couch feels like a genuine achievement — isn't a character flaw. It has a name.",
+    name: QUIZ_RESULT_FIELDS.energy.headline,
+    subheading: QUIZ_RESULT_FIELDS.energy.subheading,
     paragraphs: [
       "You know the feeling. One week you're productive, motivated, on top of everything. Then something shifts. Your energy disappears. Simple tasks feel enormous. You want to want things but your body won't cooperate.",
       "And you tell yourself you're being lazy. That you need to push through. That something must be wrong with you.",
@@ -201,9 +200,8 @@ const RESULTS: Record<ResultKey, ResultContent> = {
     ctaLine2: "And when you're ready to track it in real time, My Mood Cycle is almost here.",
   },
   sensitivity: {
-    name: RESULT_NAMES.sensitivity,
-    subheading:
-      "The week where everything lands harder than it should — where a small comment ruins your day, where you cry at something you'd normally scroll past — isn't a personality flaw. It's a phase.",
+    name: QUIZ_RESULT_FIELDS.sensitivity.headline,
+    subheading: QUIZ_RESULT_FIELDS.sensitivity.subheading,
     paragraphs: [
       "You've probably been told you're sensitive. Maybe you've told yourself that. That you feel things too deeply, that you take things too personally, that you need to toughen up.",
       "But here's what's actually happening.",
@@ -236,8 +234,10 @@ export default function QuizPage() {
   const [scores, setScores] = useState<Scores>({ pattern: 0, energy: 0, sensitivity: 0 });
   const [awarenessHigh, setAwarenessHigh] = useState(true);
   const [resultKey, setResultKey] = useState<ResultKey | null>(null);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
+  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -280,7 +280,13 @@ export default function QuizPage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setNameError("");
     setEmailError("");
+
+    if (!isValidName(name)) {
+      setNameError("Please enter your name.");
+      return;
+    }
 
     if (!isValidEmail(email)) {
       setEmailError("Please enter a valid email address.");
@@ -298,7 +304,12 @@ export default function QuizPage() {
       const response = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), listKey: resultKey, website }),
+        body: JSON.stringify({
+          email: email.trim(),
+          name: name.trim(),
+          listKey: resultKey,
+          website,
+        }),
       });
 
       if (!response.ok) {
@@ -438,6 +449,30 @@ export default function QuizPage() {
                   onChange={(event) => setWebsite(event.target.value)}
                   className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
                 />
+                <input type="hidden" name="quiz_result_headline" value={RESULTS[resultKey].name} />
+                <input
+                  type="hidden"
+                  name="quiz_result_subheading"
+                  value={RESULTS[resultKey].subheading}
+                />
+                <input
+                  type="text"
+                  name="name"
+                  autoComplete="name"
+                  aria-label="name"
+                  aria-required="true"
+                  maxLength={NAME_MAX_LENGTH}
+                  value={name}
+                  onChange={(event) => {
+                    setName(event.target.value);
+                    if (nameError) setNameError("");
+                  }}
+                  placeholder="Your name"
+                  className="w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
+                />
+                {nameError ? (
+                  <p className="mt-2 text-left text-sm text-red-500">{nameError}</p>
+                ) : null}
                 <input
                   type="email"
                   name="email"
@@ -451,7 +486,7 @@ export default function QuizPage() {
                     if (emailError) setEmailError("");
                   }}
                   placeholder="your@email.com"
-                  className="w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
+                  className="mt-3 w-full rounded-full border border-[#DB7094]/40 bg-white px-5 py-3 font-sans text-[#3D2930] placeholder:text-[#8C737B] focus:border-[#DB7094] focus:outline-none"
                 />
                 {emailError ? (
                   <p className="mt-2 text-left text-sm text-red-500">{emailError}</p>

@@ -6,9 +6,12 @@ import {
   getClientIp,
   getCountryName,
   isListKey,
+  listKeyRequiresName,
   resolveGroupId,
   validateSubscribeEmail,
+  validateSubscribeName,
 } from "@/lib/mailerlite";
+import { isQuizListKey, quizResultFieldsForMailerLite } from "@/lib/quiz-results";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -25,10 +28,12 @@ export async function POST(request: Request) {
 
   const {
     email: rawEmail,
+    name: rawName,
     listKey,
     website,
   } = body as {
     email?: unknown;
+    name?: unknown;
     listKey?: unknown;
     website?: unknown;
   };
@@ -50,6 +55,11 @@ export async function POST(request: Request) {
       },
       { status: 400 },
     );
+  }
+
+  const name = validateSubscribeName(rawName);
+  if (listKeyRequiresName(listKey) && !name) {
+    return NextResponse.json({ error: "A valid name is required." }, { status: 400 });
   }
 
   const apiKey = process.env.MAILERLITE_API_KEY;
@@ -87,7 +97,9 @@ export async function POST(request: Request) {
       groupId,
       apiKey,
       clientIp,
+      name: name ?? undefined,
       country: getCountryName(request),
+      extraFields: isQuizListKey(listKey) ? quizResultFieldsForMailerLite(listKey) : undefined,
     });
   } catch (error) {
     console.error("subscribe: MailerLite request failed", error);
