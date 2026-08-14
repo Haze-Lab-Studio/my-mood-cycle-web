@@ -1,14 +1,14 @@
 type Props = {
   className?: string;
-  /** Visual size — `hero` matches the homepage mark; `sm` fits buttons. */
-  size?: "sm" | "md" | "hero";
+  /** Visual size — `mark` is the layout-free homepage wave. */
+  size?: "sm" | "md" | "mark";
   label?: string;
 };
 
 const sizeClassName: Record<NonNullable<Props["size"]>, string> = {
   sm: "h-7 w-12",
   md: "h-10 w-[4.5rem]",
-  hero: "mx-auto mt-14 w-full max-w-[420px] animate-float-slow",
+  mark: "w-full animate-float-slow",
 };
 
 export function WaveLoader({ className = "", size = "md", label = "Loading" }: Props) {

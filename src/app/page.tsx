@@ -99,46 +99,56 @@ function WaveIcon({ className = "h-6 w-6" }: { className?: string }) {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-cream">
-      <Nav />
+      <div className="flex min-h-[100dvh] flex-col">
+        <Nav />
 
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 right-0 h-[600px] w-[600px] rounded-full opacity-60 blur-3xl"
-          style={{
-            background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-3xl px-6 pt-14 pb-10 text-center md:px-10 md:pt-[4.9rem] md:pb-14">
-          <div className="animate-fade-up">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
-              <WaveIcon className="h-3.5 w-7" />
-              Emotional awareness for every phase
-            </p>
-            <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
-              Stop wondering what&apos;s wrong with you.
-            </h1>
-            <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light">
-              <BrandName /> connects how you feel right now to where you are in your cycle — so you
-              can start understanding what&apos;s happening to you. Join the waitlist to be first
-              when we launch.
-            </p>
-            <p className="mx-auto mt-4 max-w-[650px] font-display text-lg italic text-brand-purple">
-              You&apos;re not broken. You just need to wait a few days.
-            </p>
-            <div className="mt-9">
-              <SubscribeForm
-                listKey="waitlist"
-                centered
-                submitLabel="Join the waitlist"
-                emailPlaceholder="Enter your email"
-                helperText="Be the first to know when we launch • No spam"
-              />
+        <section className="relative flex flex-1 items-center overflow-hidden">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-32 right-0 h-[600px] w-[600px] rounded-full opacity-60 blur-3xl"
+            style={{
+              background: "radial-gradient(circle, rgba(219,112,148,0.18), transparent 70%)",
+            }}
+          />
+          <div className="relative mx-auto w-full max-w-6xl px-6 py-10 md:px-10">
+            <div className="animate-fade-up flex flex-col-reverse items-center gap-8 md:flex-row md:items-center md:gap-12 lg:gap-16">
+              <div className="w-full flex-1 text-center md:text-left">
+                <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-rose-light/40 px-3.5 py-1.5 text-xs font-medium tracking-wide text-brand-purple">
+                  <WaveIcon className="h-3.5 w-7" />
+                  Emotional awareness for every phase
+                </p>
+                <h1 className="text-4xl leading-[1.05] text-brand-purple md:text-6xl">
+                  Stop wondering what&apos;s wrong with you.
+                </h1>
+                <p className="mx-auto mt-6 max-w-[650px] text-lg leading-relaxed text-brand-purple-light md:mx-0">
+                  <BrandName /> connects how you feel right now to where you are in your cycle — so
+                  you can start understanding what&apos;s happening to you. Join the waitlist to be
+                  first when we launch.
+                </p>
+                <p className="mx-auto mt-4 max-w-[650px] font-display text-lg italic text-brand-purple md:mx-0">
+                  You&apos;re not broken. You just need to wait a few days.
+                </p>
+                <div className="mx-auto mt-9 w-full max-w-md md:mx-0">
+                  <SubscribeForm
+                    listKey="waitlist"
+                    submitLabel="Join the waitlist"
+                    emailPlaceholder="Enter your email"
+                    helperText="Be the first to know when we launch • No spam"
+                    helperTextClassName="mt-6 max-w-xl text-center text-[0.9rem] leading-relaxed text-brand-purple-light md:text-left"
+                  />
+                </div>
+              </div>
+              <div className="flex w-full flex-1 items-center justify-center md:justify-end">
+                <WaveLoader
+                  size="mark"
+                  className="max-w-[210px] md:max-w-[420px]"
+                  label="My Mood Cycle app icon"
+                />
+              </div>
             </div>
-            <WaveLoader size="hero" label="My Mood Cycle app icon" />
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <section className="bg-[#FFF7FA] px-6 py-24 md:px-10 md:py-32">
         <div className="mx-auto max-w-[715px] text-center">
