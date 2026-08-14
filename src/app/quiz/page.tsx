@@ -227,9 +227,8 @@ const RESULTS: Record<ResultKey, ResultContent> = {
 function tallyResult(scores: Scores, firstAnswerKey: ResultKey): ResultKey {
   const max = Math.max(...PHASE_KEYS.map((key) => scores[key]));
   const tied = PHASE_KEYS.filter((key) => scores[key] === max);
-  if (tied.length === 1) return tied[0];
   if (tied.includes(firstAnswerKey)) return firstAnswerKey;
-  return "luteal";
+  return tied[0];
 }
 
 export default function QuizPage() {
