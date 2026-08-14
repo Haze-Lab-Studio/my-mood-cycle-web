@@ -171,7 +171,7 @@ const RESULTS: Record<ResultKey, ResultContent> = {
     subheading: QUIZ_RESULT_FIELDS.menstrual.subheading,
     paragraphs: [
       "You know this week. The one where cancelling plans doesn't come with much guilt, where quiet feels like relief instead of loneliness, and even easy small talk suddenly takes real effort.",
-      "You've probably called that antisocial. Or low mood. Or \"being difficult.\"",
+      'You\'ve probably called that antisocial. Or low mood. Or "being difficult."',
       "Here's what's actually happening: hormone levels shift as your body sheds its lining, and your nervous system becomes more sensitive as a result. Your tolerance for noise, obligation, and pretending drops — not because something's wrong, but because your body is doing real work and asking for less input while it does it.",
       "This isn't a weakness. It's a different kind of intelligence.",
     ],
