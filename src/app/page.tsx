@@ -140,8 +140,8 @@ export default function HomePage() {
               </div>
               <div className="flex w-full flex-1 items-center justify-center md:justify-end">
                 <WaveLoader
-                  size="hero"
-                  className="!mx-0 !mt-0 max-w-[210px] md:max-w-[420px]"
+                  size="mark"
+                  className="max-w-[210px] md:max-w-[420px]"
                   label="My Mood Cycle app icon"
                 />
               </div>
