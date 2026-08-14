@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // Do not use `output: "export"` — App Router API routes (e.g. /api/subscribe)
+  // require a Node server runtime on Vercel.
   webpack: (config, { dev }) => {
     // Avoid corrupted on-disk webpack cache in dev (e.g. "invalid literal/length code")
     if (dev) {

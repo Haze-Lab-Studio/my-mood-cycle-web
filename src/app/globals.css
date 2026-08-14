@@ -19,8 +19,10 @@
   --color-border: #eadfe4;
   --color-ring: var(--color-brand-rose);
 
-  --font-display: "DM Serif Display", Georgia, serif;
-  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-dm-serif-display), Georgia, serif;
+  --font-body: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-dm-serif-display), Georgia, serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;

@@ -11,11 +11,13 @@ node_modules
 dist
 dist-ssr
 .next
+out
 .output
 .vinxi
 .tanstack/**
 .nitro
 *.local
+*.tsbuildinfo
 
 # Wrangler / Cloudflare
 .wrangler/
