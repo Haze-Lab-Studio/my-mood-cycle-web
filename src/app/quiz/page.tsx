@@ -10,12 +10,6 @@ import { pushDataLayerEvent } from "@/lib/analytics";
 import { EMAIL_MAX_LENGTH, NAME_MAX_LENGTH, isValidEmail, isValidName } from "@/lib/email";
 import { QUIZ_RESULT_FIELDS } from "@/lib/quiz-results";
 
-declare global {
-  interface Window {
-    dataLayer?: Record<string, unknown>[];
-  }
-}
-
 type QuizState = "intro" | "question" | "gate" | "result";
 type ResultKey = "menstrual" | "follicular" | "ovulation" | "luteal";
 type ScoreKey = ResultKey;

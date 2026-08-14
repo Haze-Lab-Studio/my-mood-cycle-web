@@ -51,12 +51,6 @@ const DEFAULT_SUCCESS: Record<ListKey, { title: string; body: ReactNode }> = {
   },
 };
 
-declare global {
-  interface Window {
-    dataLayer?: Record<string, unknown>[];
-  }
-}
-
 export function SubscribeForm({
   listKey,
   centered = false,
